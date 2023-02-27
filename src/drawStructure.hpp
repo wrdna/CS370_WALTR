@@ -3,6 +3,7 @@
 
 #ifndef DRAW_STRUCTURE
 #define DRAW_STRUCTURE
+#include <vector>
 
 class DrawStructure {
 	private:
