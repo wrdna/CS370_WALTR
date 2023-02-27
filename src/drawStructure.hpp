@@ -1,11 +1,29 @@
 #ifndef DRAW_STRUCTURE
 #define DRAW_STRUCTURE
 
-template<std::size_t SIZE> 
-void drawStructure(std::array<int, SIZE> &array);
+class DrawStructure {
+	private:
+		std::vector<int>memory_vector;
+	public:
 
-void drawStructure(int array[], int size);
+		//Overload for C-Style arrays
+		DrawStructure(const int* c_array, int c_size);
 
-void drawStructure(std::vector<int> &vector);
+		//Overload for STL arrays
+		//Implementation in header file because of template
+		template<std::size_t SIZE>
+		DrawStructure(const std::array<int, SIZE> &stl_array) {
+			toVector(stl_array.begin(), stl_array.end());
+			//drawVector(memory_vector);
+		}
 
+		//Overload for Vectors
+		DrawStructure(const std::vector<int> vector);
+
+		//Convert inputted structure to a vector
+		void toVector(const int* begin, const int* end);
+		
+		//printVector used for testing
+		void printVector(std::vector<int>vector);
+};
 #endif // DRAW_STRUCTURE

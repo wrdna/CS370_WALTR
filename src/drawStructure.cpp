@@ -6,6 +6,7 @@
 #include <iostream>
 
 #include "drawStructure.hpp"
+
 /*
 Function description:
 drawStructure()
@@ -15,35 +16,44 @@ draw the passed data structure.
 
 INPUT: An STL array, C Style array, or vector.
 OUTPUT: None
-
 */
 
-//TODO: Figure out STL arrays, convert arrays to array of pointers to be passed(?)
 
+/*
+INPUT: Pointer to C-Style Array, Size of array
 
-// template<std::size_t SIZE>
-// void drawStructure(std::array<int, SIZE> &array) {
-// 	//drawArraySTL(array);
-// 	std::cout<<std::endl;
-// 	for(int x : array) {
-// 		std::cout<<x<<" ";
-// 	}
-// }
-
-void drawStructure(int array[], int size) {
-	//drawArrayCStyle(array);
-	std::cout<<std::endl;
-	for(int i=0;i<size;i++) {
-		std::cout<<array[i]<<" ";
-	}
+Creates shallow copy stored within object and calls function to draw
+*/
+DrawStructure::DrawStructure(const int* c_array, int c_size) {
+	toVector(c_array, c_array + c_size);
+	printVector(memory_vector);
+	//drawVector(memory_vector);	
 }
 
-void drawStructure(std::vector<int> &vector) {
-	//drawVector(array);
-	std::cout<<std::endl;
-	for(int x : vector) {
+/*
+INPUT: Vector
+
+Creates shallow copy stored within object
+*/
+DrawStructure::DrawStructure(const std::vector<int> vector) {
+    toVector(vector.data(), vector.data() + vector.size());
+}
+
+/*
+INPUT: Pointer to beginning of array, pointer to end of array
+
+Creates a shallow copy of the inputted structure, and stored
+in the created DataStructure object.
+*/
+void DrawStructure::toVector(const int* begin, const int* end) {
+	memory_vector = std::vector<int>(begin, end);
+}
+
+/*
+Prints vector, used for testing
+*/
+void DrawStructure::printVector(std::vector<int>vector) {
+	for(auto x: vector) {
 		std::cout<<x<<" ";
 	}
 }
-
-
