@@ -1,9 +1,12 @@
+#include <vector>
+#include <array>
+
 #ifndef DRAW_STRUCTURE
 #define DRAW_STRUCTURE
 
 class DrawStructure {
 	private:
-		std::vector<int>memory_vector;
+		std::vector<int *>memory_vector;
 	public:
 
 		//Overload for C-Style arrays
@@ -14,6 +17,7 @@ class DrawStructure {
 		template<std::size_t SIZE>
 		DrawStructure(const std::array<int, SIZE> &stl_array) {
 			toVector(stl_array.begin(), stl_array.end());
+			printVector(memory_vector);
 			//drawVector(memory_vector);
 		}
 
@@ -24,6 +28,6 @@ class DrawStructure {
 		void toVector(const int* begin, const int* end);
 		
 		//printVector used for testing
-		void printVector(std::vector<int>vector);
+		void printVector(std::vector<int *>vector);
 };
 #endif // DRAW_STRUCTURE

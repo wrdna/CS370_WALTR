@@ -46,14 +46,18 @@ Creates a shallow copy of the inputted structure, and stored
 in the created DataStructure object.
 */
 void DrawStructure::toVector(const int* begin, const int* end) {
-	memory_vector = std::vector<int>(begin, end);
+	for(int*i = (int*)begin; i < end; i++) {
+		memory_vector.push_back(i);
+	}
 }
 
 /*
 Prints vector, used for testing
+
+To print value, index must be dereferenced with *
 */
-void DrawStructure::printVector(std::vector<int>vector) {
-	for(auto x: vector) {
-		std::cout<<x<<" ";
+void DrawStructure::printVector(std::vector<int *>vector) {
+	for(auto & x: vector) {
+		std::cout<<*x<<" ";
 	}
 }

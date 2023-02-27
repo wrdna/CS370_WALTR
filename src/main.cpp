@@ -1,6 +1,6 @@
 #include <array>
 #include <vector>
-#include <initializer_list>
+#include <iostream>
 #include "drawStructure.hpp"
 
 int main(void) {
