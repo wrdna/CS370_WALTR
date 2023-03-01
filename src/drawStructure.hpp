@@ -3,11 +3,10 @@
 
 #ifndef DRAW_STRUCTURE
 #define DRAW_STRUCTURE
-#include <vector>
 
 class DrawStructure {
 	private:
-		std::vector<int *>memory_vector;
+		std::vector<int *> memory_vector;
 	public:
 
 		//Overload for C-Style arrays
@@ -19,7 +18,6 @@ class DrawStructure {
 		DrawStructure(const std::array<int, SIZE> &stl_array) {
 			toVector(stl_array.begin(), stl_array.end());
 			printVector(memory_vector);
-			//drawVector(memory_vector);
 		}
 
 		//Overload for Vectors

@@ -6,6 +6,7 @@
 #include <iostream>
 
 #include "drawStructure.hpp"
+#include "waltrArray.cpp"
 
 /*
 Function description:
@@ -26,7 +27,7 @@ Creates shallow copy stored within object and calls function to draw
 */
 DrawStructure::DrawStructure(const int* c_array, int c_size) {
 	toVector(c_array, c_array + c_size);
-	printVector(memory_vector);
+	drawArray(memory_vector);
 	//drawVector(memory_vector);	
 }
 
@@ -56,8 +57,8 @@ Prints vector, used for testing
 
 To print value, index must be dereferenced with *
 */
-void DrawStructure::printVector(std::vector<int *>vector) {
-	for(auto & x: vector) {
+void DrawStructure::printVector(std::vector<int *> vector) {
+	for(auto &x: vector) {
 		std::cout<<*x<<" ";
 	}
 }

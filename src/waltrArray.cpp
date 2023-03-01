@@ -4,29 +4,29 @@
 
 using namespace std;
 
-void drawArray(vector<int *>);
+void drawArray(vector<int *> myVector);
 
-int main(int argc, char* argv[]){
-/*
-    vector<int *> n;
+// int main(int argc, char* argv[]){
+// /*
+//     vector<int *> n;
 
-    for(int i=0; i<10; i++){
-        n->push_back(i);
-    }
+//     for(int i=0; i<10; i++){
+//         n->push_back(i);
+//     }
 
-    //int arraySize = n.size();
-    drawArray(n);
-
-
-*/
-
-    return 0;
+//     //int arraySize = n.size();
+//     drawArray(n);
 
 
-}
+// */
+
+//     return 0;
 
 
-void drawArray(vector<int*>& myVector){
+// }
+
+
+void drawArray(vector<int*> myVector){
 
     //create dimensions for a screen in tigr and include buffer for the edges
     int screenX = 320;
