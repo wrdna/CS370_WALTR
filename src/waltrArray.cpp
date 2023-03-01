@@ -4,9 +4,9 @@
 
 using namespace std;
 
-void drawArray(vector<int *>);
+void drawArray(vector<int *> myVector);
 
-int main(int argc, char* argv[]){
+//int main(int argc, char* argv[]){
 /*
     vector<int *> n;
 
@@ -20,28 +20,26 @@ int main(int argc, char* argv[]){
 
 */
 
-    return 0;
+  //  return 0;
 
 
-}
+//}
 
 
-void drawArray(vector<int*>& myVector){
+void drawArray(vector<int*> myVector){
 
     //create dimensions for a screen in tigr and include buffer for the edges
     int screenX = 320;
     int screenY = 240;
-    int bufferX = 5;
-    int bufferY = 10;
+    int bufferX = 10;
+    int bufferY = 100;
 
-    //vector<int>& vecRef = myVector;
     
-
-    //get the amount of elements in the array
+    //get the amount of elements in the vector
     int valuesLength = myVector.size();
 
-    //scale the array so it fits on screen
-    int barWidth = ((screenX/valuesLength)-(bufferX*2));
+    //scale the vector so it fits on screen
+    int boxWidth = ((screenX/valuesLength)-(bufferX*2));
 
 
     //create screen
@@ -50,14 +48,14 @@ void drawArray(vector<int*>& myVector){
 
         tigrClear(screen, tigrRGB(0x80, 0x90, 0xa0));
 
-    //make bars from array values and print index number above the bar
+    //make boxes from array values and print index number below the box
 
         for(int i=0; i<=valuesLength; i++){
-            //int vecElement = myVector.at(i);
-            tigrRect(screen, bufferX, bufferY, barWidth, *(myVector[i]), tigrRGB(0,0,0));
-            tigrFillRect(screen, bufferX, bufferY, barWidth, *(myVector[i]), tigrRGB(250, 250, 0));
-            tigrPrint(screen, tfont, bufferX, (bufferY/2), tigrRGB(0, 100, 250), "%d", i);
-            bufferX = bufferX + barWidth;
+            tigrRect(screen, bufferX, bufferY, boxWidth, boxWidth, tigrRGB(0,0,0));
+            tigrFillRect(screen, bufferX, bufferY, boxWidth, boxWidth, tigrRGB(250, 250, 0));
+            tigrPrint(screen, tfont, bufferX, (bufferY + (boxWidth/2)), tigrRGB(0,0,0), "%d", *(myVector[i]));
+            tigrPrint(screen, tfont, bufferX, (bufferY+boxWidth+5), tigrRGB(0, 100, 250), "%d", i);
+            bufferX = bufferX + boxWidth + 2;
         }
 
         tigrUpdate(screen);
