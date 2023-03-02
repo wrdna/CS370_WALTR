@@ -8,7 +8,7 @@ int main(void) {
 	int arr_c[5] = {0,1,2,3,4};
 	std::vector<int> vec = {5,6,7,8,9};
 	
-	DrawStructure drawStructure = DrawStructure(arr_stl);
+	DrawStructure drawStructure = DrawStructure(arr_c, 5);
 	// drawStructure(arr_c,5);
 	// drawStructure(vec);
 }
