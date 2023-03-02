@@ -37,6 +37,7 @@ Creates shallow copy stored within object
 */
 DrawStructure::DrawStructure(const std::vector<int> vector) {
     toVector(vector.data(), vector.data() + vector.size());
+	printVector(memory_vector);
 }
 
 /*
