@@ -4,27 +4,6 @@
 
 using namespace std;
 
-void drawArray(vector<int *> myVector);
-
-//int main(int argc, char* argv[]){
-/*
-    vector<int *> n;
-
-    for(int i=0; i<10; i++){
-        n->push_back(i);
-    }
-
-    //int arraySize = n.size();
-    drawArray(n);
-
-
-*/
-
-  //  return 0;
-
-
-//}
-
 
 void drawArray(vector<int*> myVector){
 
@@ -53,8 +32,8 @@ void drawArray(vector<int*> myVector){
         for(int i=0; i<=valuesLength; i++){
             tigrRect(screen, bufferX, bufferY, boxWidth, boxWidth, tigrRGB(0,0,0));
             tigrFillRect(screen, bufferX, bufferY, boxWidth, boxWidth, tigrRGB(250, 250, 0));
-            tigrPrint(screen, tfont, bufferX, (bufferY + (boxWidth/2)), tigrRGB(0,0,0), "%d", *(myVector[i]));
-            tigrPrint(screen, tfont, bufferX, (bufferY+boxWidth+5), tigrRGB(0, 100, 250), "%d", i);
+            tigrPrint(screen, tfont, (bufferX+(boxWidth/2)), (bufferY + (boxWidth/2)), tigrRGB(0,0,0), "%d", *(myVector[i]));
+            tigrPrint(screen, tfont, (bufferX+(boxWidth/2)), (bufferY+boxWidth+5), tigrRGB(0, 100, 250), "%d", i);
             bufferX = bufferX + boxWidth + 2;
         }
 
