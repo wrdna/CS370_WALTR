@@ -12,7 +12,7 @@ void drawArray(vector<int*> myVector){
     int screenY = 240;
     int bufferX = 10;
     int bufferY = 100;
-
+    
     
     //get the amount of elements in the vector
     int valuesLength = myVector.size();
