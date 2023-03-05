@@ -30,6 +30,12 @@ DrawStructure::DrawStructure(const int* c_array, int c_size) {
 	//drawVector(memory_vector);	
 }
 
+DrawStructure::DrawStructure(const int* const* c_array, int c_row, int c_col) {
+	to2DVector(c_array, c_row, c_col);
+	printVector2D(memory_matrix);
+	//drawVector(memory_vector);
+}
+
 /*
 INPUT: Vector
 
@@ -51,6 +57,16 @@ void DrawStructure::toVector(const int* begin, const int* end) {
 	}
 }
 
+void DrawStructure::to2DVector(const int* const* arr, int row, int col) {
+	for(int i = 0; i < row; i++) {
+		std::vector<int *> vector_row;
+		for(int j = 0; j < col; j++) {
+			vector_row.push_back((int*)&arr[i][j]);
+		}
+		memory_matrix.push_back(vector_row);
+	}
+}
+
 /*
 Prints vector, used for testing
 
@@ -59,5 +75,19 @@ To print value, index must be dereferenced with *
 void DrawStructure::printVector(std::vector<int *>vector) {
 	for(auto & x: vector) {
 		std::cout<<*x<<" ";
+	}
+}
+
+void DrawStructure::printVector2D(std::vector<std::vector<int *>>vector2D) {
+	for(auto& vector: vector2D) {
+		for(auto & x: vector) {
+			//std::cout<<*x<<" ";
+			if(x != nullptr) {
+                std::cout << *x << " ";
+            } else {
+                std::cout << "null ";
+            }
+		}
+		std::cout<<std::endl;
 	}
 }

@@ -8,10 +8,12 @@
 class DrawStructure {
 	private:
 		std::vector<int *>memory_vector;
+		std::vector<std::vector<int *>>memory_matrix;
 	public:
 
 		//Overload for C-Style arrays
 		DrawStructure(const int* c_array, int c_size);
+		DrawStructure(const int* const* arr, int c_row, int c_col);
 
 		//Overload for STL arrays
 		//Implementation in header file because of template
@@ -27,8 +29,15 @@ class DrawStructure {
 
 		//Convert inputted structure to a vector
 		void toVector(const int* begin, const int* end);
+
+		//Convert inputted structure to a vector
+		void to2DVector(const int* const* arr, int row, int col);
 		
 		//printVector used for testing
 		void printVector(std::vector<int *>vector);
+
+		//printVector2D used for testing
+		void printVector2D(std::vector<std::vector<int *>>vector2D);
+
 };
 #endif // DRAW_STRUCTURE
