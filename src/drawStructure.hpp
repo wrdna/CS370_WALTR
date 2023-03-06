@@ -9,8 +9,8 @@
 class DrawStructure {
 	private:
 		std::vector<int *> memory_vector;
-		std::stack<int *> memory_stack;
-		std::queue<int *> memory_queue;
+		//std::stack<int *> memory_stack;
+		//std::queue<int *> memory_queue;
 	public:
 
 		//Overload for C-Style arrays
@@ -30,6 +30,7 @@ class DrawStructure {
 		//Overload for stacks
 		DrawStructure(const std::stack<int> stack);
 
+		//Overload for queues
 		DrawStructure(const std::queue<int> queue);
 
 		//Convert inputted structure to a vector
