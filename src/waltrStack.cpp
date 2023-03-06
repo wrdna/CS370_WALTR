@@ -5,26 +5,11 @@
 using namespace std;
 
 
-
-
-void drawStack(stack<int>);
-
-int main (int argc, char* argv[]){
-    stack<int> waltrStack;
-    for(int i=0; i<11; i++){
-        waltrStack.push(i);
-    }
-    drawStack(waltrStack);
-
-    return 0;
-
-}
-
 void drawStack(stack<int> myStack){
 
     int screenX = 320;
     int screenY = 240;
-    int bufferX = 30;
+    int bufferX = 50;
     int bufferY = 20;
 
     int size = myStack.size();
@@ -38,27 +23,26 @@ void drawStack(stack<int> myStack){
 
         tigrPrint(screen, tfont, 200, 150, tigrRGB(0,100,250), "Top of stack: %d", myStack.top());
 
-        for(int i=0; i<size; i++){
-            tigrRect(screen, bufferX, bufferY, 150, barHeight, tigrRGB(0,0,0));
-            tigrFillRect(screen, bufferX, bufferY, 150, barHeight, tigrRGB(250,250,0));
-            tigrPrint(screen, tfont, 200, (bufferY-barHeight/2), tigrRGB(0,100,250), "%d", myStack.top());
-            if(myStack.size() == 1){
-                tigrPrint(screen, tfont, 200, 200, tigrRGB(0,100,250), "Bottom of stack: %d", myStack.top());
+        bool test = false;
+
+        while(!test){
+            for(int i=0; i<size; i++){
+                tigrRect(screen, bufferX, bufferY, 150, barHeight, tigrRGB(0,0,0));
+                tigrFillRect(screen, bufferX, bufferY, 150, barHeight, tigrRGB(250,250,0));
+                tigrPrint(screen, tfont, 200, (bufferY-barHeight/2), tigrRGB(0,100,250), "%d", myStack.top());
+                if(myStack.size() == 1){
+                    tigrPrint(screen, tfont, 200, 200, tigrRGB(0,100,250), "Bottom of stack: %d", myStack.top());
+                }
+                myStack.pop();
+                bufferY += barHeight;
             }
-            myStack.pop();
-            bufferY += barHeight;
+            test = true;
         }
-
-
-
 
         tigrUpdate(screen);
     }
     tigrFree(screen);
-    //while(!myStack.empty()){
-      //  cout << myStack.top() << " ";
-        //myStack.pop();
-    }
+}
 
 
 
