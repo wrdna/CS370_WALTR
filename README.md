@@ -31,3 +31,7 @@ To use it, you just drop them right into your project.
 4. You're done!
 
 Ex: ```g++ main.cpp waltr.cpp -lopengl32 -lgdi32```
+
+## Restrictions
+
+Currently, WALTR only supports the integer type (More types in the future!)
