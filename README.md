@@ -48,7 +48,7 @@ And to compile:
 ```
 Windows: g++ main.cpp waltr.cpp -lopengl32 -lgdi32
 Mac: g++ main.cpp waltr.cpp -framework Cocoa -framework openGL
-Linux:
+Linux: -lGLU -lGL -lX11
 ```
 
 ## Restrictions
