@@ -2,6 +2,7 @@
 #include <array>
 #include <stack>
 #include <queue>
+#include "drawVector.hpp"
 
 #ifndef WALTR_DRAW_STRUCTURE
 #define WALTR_DRAW_STRUCTURE

@@ -1,7 +1,7 @@
 #include <array>
 #include <vector>
 #include <iostream>
-#include "waltr.hpp"
+#include "waltrDrawStructure.hpp"
 
 int main(void) {
 	std::array<int,5> arr_stl={0,1,2,3,4};
@@ -12,7 +12,7 @@ int main(void) {
 	queue.push(20);
 	queue.push(30);
 	
-	Waltr waltr = Waltr(vec);
+	Waltr waltr = Waltr(queue);
 	// drawStructure(arr_c,5);
 	// drawStructure(vec);
 }

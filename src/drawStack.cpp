@@ -28,6 +28,8 @@ void drawStack(std::stack<int> myStack)
         {
             
             tigrClear(screen, tigrRGB(0,0,0));
+
+            tigrPrint(screen, tfont, 170, 15, tigrRGB(38,252,66), "Index: ");
             
             tigrPrint(screen, tfont, 200, 150, tigrRGB(38, 252, 66), "Top of stack: %d", myStack.top());
             
@@ -35,7 +37,7 @@ void drawStack(std::stack<int> myStack)
             {
                     tigrRect(screen, bufferX, bufferY, 150, barHeight, tigrRGB(0,0,0));
                     tigrFillRect(screen, bufferX, bufferY, 150, barHeight, tigrRGB(38, 252, 66));
-                    tigrPrint(screen, tfont, 150, (bufferY-barHeight/50), tigrRGB(38, 252, 66), "%d", set.top());
+                    tigrPrint(screen, tfont, 175, (bufferY-barHeight/50), tigrRGB(38, 252, 66), "%d", set.top());
                     if(set.size() == 1)
                     {
                             tigrPrint(screen, tfont, 200, 200, tigrRGB(38, 252, 66), "Bottom of stack: %d", set.top());

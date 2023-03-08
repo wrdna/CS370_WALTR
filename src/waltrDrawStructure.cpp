@@ -56,8 +56,7 @@ INPUT: Pointer to queue
 Currently does not reference initial memory from the passed structure. (TODO)
 */
 Waltr::Waltr(const std::queue<int> queue) {
-	//drawQueue(queue);
-	printQueue(queue);
+	drawQueue(queue);
 }
 
 /*

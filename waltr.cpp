@@ -169,6 +169,8 @@ void Waltr::drawStack(std::stack<int> myStack)
         {
             
             tigrClear(screen, tigrRGB(0,0,0));
+
+            tigrPrint(screen, tfont, 170, 15, tigrRGB(38,252,66), "Index: ");
             
             tigrPrint(screen, tfont, 200, 150, tigrRGB(0,100,250), "Top of stack: %d", myStack.top());
             
