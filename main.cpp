@@ -11,8 +11,25 @@ int main(void) {
 	queue.push(10);
 	queue.push(20);
 	queue.push(30);
+	queue.push(10);
+	queue.push(20);
+	queue.push(30);
+	queue.push(10);
+	queue.push(20);
+	queue.push(30);
+
+	 std::stack<int> stack;
+	stack.push(10);
+	stack.push(20);
+	stack.push(30);
+	stack.push(10);
+	stack.push(20);
 	
-	Waltr waltr = Waltr(arr_c, 5);
+	
+	
+	Waltr waltrV = Waltr(vec);
+	Waltr waltrS = Waltr(stack);
+	Waltr waltrQ = Waltr(queue);
 	// drawStructure(arr_c,5);
 	// drawStructure(vec);
 }

@@ -114,23 +114,22 @@ void Waltr::drawVector(std::vector<int*> myVector) {
     //create screen
     Tigr* screen = tigrWindow(screenX, screenY, (char*)"Your vector!", 0);
     tigrClear(screen, tigrRGB(0,0,0));
+    tigrPrint(screen, tfont, bufferX, bufferY - 30, tigrRGB(255,0,0), "Index: ");
     while (!tigrClosed(screen) && !tigrKeyDown(screen, TK_ESCAPE)) {
-     
-        if (!ifprinted)
-        {
+    
+        if (!ifprinted) {
             for(int i=0; i < valuesLength; i++) {
                 
                 tigrRect(screen, bufferX, bufferY, boxWidth, boxWidth, tigrRGB(0,0,0));
                 tigrFillRect(screen, bufferX, bufferY, boxWidth, boxWidth, tigrRGB(38, 252, 66));
-                tigrPrint(screen, tfont, (bufferX+(boxWidth/2)), (bufferY + (boxWidth/2)), tigrRGB(0,0,0), "%d", *(myVector[i]));
-                tigrPrint(screen, tfont, (bufferX+(boxWidth/2)), (bufferY+boxWidth+5), tigrRGB(0, 100, 250), "%d", i);
+                tigrPrint(screen, tfont, (bufferX+(boxWidth/2)), (bufferY + (boxWidth/2)), tigrRGB(102,178,200), "%d", *(myVector[i]));
+                tigrPrint(screen, tfont, (bufferX+(boxWidth/2)), (bufferY-(boxWidth/2)), tigrRGB(255, 0, 0), "%d", i);
                 bufferX = bufferX + boxWidth + 2;
                 
                 //myVector.pop_back();
                 
-                for(int j = -1; j < i; j++)
-                {
-                    for(int g = -1; g < j; g++){
+                for(int j = -1; j < i; j++) {
+                    for(int g = -1; g < j; g++) {
                         tigrUpdate(screen);}
                 }
             }
@@ -150,51 +149,40 @@ void Waltr::drawStack(std::stack<int> myStack)
     int screenX = 320;
     int screenY = 240;
     int bufferX = 10;
-    int bufferY = 20;
+    int bufferY = 30;
     
     std::stack<int> set = myStack;
     
     int size = myStack.size();
     
-    int barHeight = (screenY/size) - 10;
+    int barHeight = (screenY/size) - 8;
     
     bool ifprinted = false;
     
     Tigr* screen = tigrWindow(screenX, screenY, (char*)"Your Stack!", 0);
     
-    while (!tigrClosed(screen) && !tigrKeyDown(screen, TK_ESCAPE))
-    {
-        
-        if (!ifprinted)
-        {
-            
+    while (!tigrClosed(screen) && !tigrKeyDown(screen, TK_ESCAPE)){ 
+        if (!ifprinted) {
             tigrClear(screen, tigrRGB(0,0,0));
-
-            tigrPrint(screen, tfont, 170, 15, tigrRGB(38,252,66), "Index: ");
+            tigrPrint(screen, tfont, 160, 15, tigrRGB(255,0,0), "Index: ");
+            tigrPrint(screen, tfont, 180, 180, tigrRGB(38,252,66), "Top of stack: %d", myStack.top());
             
-            tigrPrint(screen, tfont, 200, 150, tigrRGB(0,100,250), "Top of stack: %d", myStack.top());
-            
-            for(int i = 0; i < size; i++)
-            {
-                    tigrRect(screen, bufferX, bufferY, 150, barHeight, tigrRGB(0,0,0));
-                    tigrFillRect(screen, bufferX, bufferY, 150, barHeight, tigrRGB(38, 252, 66));
-                    tigrPrint(screen, tfont, 150, (bufferY-barHeight/50), tigrRGB(38, 252, 66), "%d", set.top());
-                    if(set.size() == 1)
-                    {
-                            tigrPrint(screen, tfont, 200, 200, tigrRGB(38, 252, 66), "Bottom of stack: %d", set.top());
-                    }
-                    
-                    set.pop();
-                    bufferY += barHeight;
-                    
-                    for(int j = -1; j < i; j++)
-                    {
-                        for(int g = -1; g < j; g++)
-                        {
-                                tigrUpdate(screen);
-                        }
+            for (int i = 0; i < size; i++) {
+                tigrRect(screen, bufferX, bufferY, 150, barHeight, tigrRGB(0,0,0));
+                tigrFillRect(screen, bufferX, bufferY, 150, barHeight, tigrRGB(38, 252, 66));
+                tigrPrint(screen, tfont, ((bufferX+75)), (bufferY-barHeight/50), tigrRGB(102,178,200), "%d", set.top());
+                tigrPrint(screen, tfont, (bufferX+160), (bufferY-barHeight/50), tigrRGB(255,0,0), "%d", i);
+                if (set.size() == 1){
+                    tigrPrint(screen, tfont, 180, 200, tigrRGB(38, 252, 66), "Bottom of stack: %d", set.top());
+                }
+                set.pop();
+                bufferY += barHeight; 
+                for(int j = -1; j < i; j++) {
+                    for(int g = -1; g < j; g++) {
+                        tigrUpdate(screen);
                     }
                 }
+            }
             ifprinted = true;   
         }
         tigrUpdate(screen);
@@ -204,12 +192,12 @@ void Waltr::drawStack(std::stack<int> myStack)
 //////////////// END OF drawStack.cpp ////////////////
 
 
-//////////////// END OF drawQueue.cpp ////////////////
+//////////////// BEGINNING OF drawQueue.cpp ////////////////
 void Waltr::drawQueue(std::queue<int> myQueue) {
     int screenX = 320;
     int screenY = 240;
-    int bufferX = 50;
-    int bufferY = 20;
+    int bufferX = 10;
+    int bufferY = 30;
 
     int size = myQueue.size();
     
@@ -223,19 +211,19 @@ void Waltr::drawQueue(std::queue<int> myQueue) {
     while (!tigrClosed(screen) && !tigrKeyDown(screen, TK_ESCAPE)) {
         
         if (!ifprinted) {
-
             tigrClear(screen, tigrRGB(0,0,0));
-
-            tigrPrint(screen, tfont, 200, 150, tigrRGB(38, 252, 66), "Top of Queue: %d", myQueue.front());
+            tigrPrint(screen, tfont, 160, 15, tigrRGB(255,0,0), "Index: ");
+            tigrPrint(screen, tfont, 200, 150, tigrRGB(38, 252, 66), "Front of Queue: %d", myQueue.front());
 
             bool test = false;
 
             for(int i=0; i<size; i++) {
-                tigrRect(screen, bufferX, bufferY, 100, barHeight, tigrRGB(0,0,0));
-                tigrFillRect(screen, bufferX, bufferY, 100, barHeight, tigrRGB(38, 252, 66));
-                tigrPrint(screen, tfont, 160, (bufferY-barHeight/50), tigrRGB(38, 252, 66), "%d", set.front());
+                tigrRect(screen, bufferX, bufferY, 150, barHeight, tigrRGB(0,0,0));
+                tigrFillRect(screen, bufferX, bufferY, 150, barHeight, tigrRGB(38, 252, 66));
+                tigrPrint(screen, tfont, ((bufferX+75)), (bufferY-barHeight/50), tigrRGB(102,178,200), "%d", set.front());
+                tigrPrint(screen, tfont, (bufferX+160), (bufferY-barHeight/50), tigrRGB(255,0,0), "%d", i);
                 if(set.size() == 1) {
-                    tigrPrint(screen, tfont, 200, 200, tigrRGB(38, 252, 66), "Bottom of Queue: %d", set.front());
+                    tigrPrint(screen, tfont, 200, 200, tigrRGB(38, 252, 66), "End of Queue: %d", set.front());
                 }
                 set.pop();
                 bufferY += barHeight;
@@ -251,7 +239,7 @@ void Waltr::drawQueue(std::queue<int> myQueue) {
     }
     tigrFree(screen); 
 }
-//////////////// BEGINNING OF drawQueue.cpp ////////////////
+//////////////// END OF drawQueue.cpp ////////////////
 
 
 //////////////// BEGINNING OF tigr.c ////////////////

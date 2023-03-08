@@ -10,11 +10,11 @@
 //     drawQueue(q);  
 // }
 
-void drawQueue(std::queue<int> myQueue){
+void drawQueue(std::queue<int> myQueue) {
     int screenX = 320;
     int screenY = 240;
-    int bufferX = 50;
-    int bufferY = 20;
+    int bufferX = 10;
+    int bufferY = 30;
 
     int size = myQueue.size();
     
@@ -28,19 +28,19 @@ void drawQueue(std::queue<int> myQueue){
     while (!tigrClosed(screen) && !tigrKeyDown(screen, TK_ESCAPE)) {
         
         if (!ifprinted) {
-
             tigrClear(screen, tigrRGB(0,0,0));
-
-            tigrPrint(screen, tfont, 200, 150, tigrRGB(38, 252, 66), "Top of Queue: %d", myQueue.front());
+            tigrPrint(screen, tfont, 160, 15, tigrRGB(255,0,0), "Index: ");
+            tigrPrint(screen, tfont, 200, 150, tigrRGB(38, 252, 66), "Front of Queue: %d", myQueue.front());
 
             bool test = false;
 
             for(int i=0; i<size; i++) {
-                tigrRect(screen, bufferX, bufferY, 100, barHeight, tigrRGB(0,0,0));
-                tigrFillRect(screen, bufferX, bufferY, 100, barHeight, tigrRGB(38, 252, 66));
-                tigrPrint(screen, tfont, 160, (bufferY-barHeight/50), tigrRGB(38, 252, 66), "%d", set.front());
+                tigrRect(screen, bufferX, bufferY, 150, barHeight, tigrRGB(0,0,0));
+                tigrFillRect(screen, bufferX, bufferY, 150, barHeight, tigrRGB(38, 252, 66));
+                tigrPrint(screen, tfont, ((bufferX+75)), (bufferY-barHeight/50), tigrRGB(102,178,200), "%d", set.front());
+                tigrPrint(screen, tfont, (bufferX+160), (bufferY-barHeight/50), tigrRGB(255,0,0), "%d", i);
                 if(set.size() == 1) {
-                    tigrPrint(screen, tfont, 200, 200, tigrRGB(38, 252, 66), "Bottom of Queue: %d", set.front());
+                    tigrPrint(screen, tfont, 200, 200, tigrRGB(38, 252, 66), "End of Queue: %d", set.front());
                 }
                 set.pop();
                 bufferY += barHeight;
