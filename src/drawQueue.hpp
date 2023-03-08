@@ -1,8 +1,8 @@
 #include <queue>
 
-#ifndef DRAW_QUEUE
-#define DRAW_QUEUE
+#ifndef WALTR_DRAW_QUEUE
+#define WALTR_DRAW_QUEUE
 
 void drawQueue(std::queue<int*> myQueue);
 
-#endif // DRAW_QUEUE
+#endif // WALTR_DRAW_QUEUE

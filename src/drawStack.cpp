@@ -1,16 +1,7 @@
 #include "tigr.h"
+#include "drawStack.hpp"
 #include <iostream>
 #include <stack>
-
-void drawStack(std::stack<int> myStack);
-
-// int main()
-// {
-//     stack<int> s;
-//     for (int i = 0; i < 10; i++)
-//         s.push(i);
-//     drawStack(s);
-// }
 
 void drawStack(std::stack<int> myStack)
 {

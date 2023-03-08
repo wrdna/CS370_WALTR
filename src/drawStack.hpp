@@ -1,8 +1,8 @@
 #include <stack>
 
-#ifndef DRAW_STACK
-#define DRAW_STACK
+#ifndef WALTR_DRAW_STACK
+#define WALTR_DRAW_STACK
 
-void drawStack(std::stack<int*> myStack);
+void drawStack(std::stack<int> myStack);
 
-#endif // DRAW_STACK
+#endif // WALTR_DRAW_STACK

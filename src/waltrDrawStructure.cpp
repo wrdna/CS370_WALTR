@@ -5,7 +5,7 @@
 
 #include <iostream>
 
-#include "waltr.hpp"
+#include "waltrDrawStructure.hpp"
 
 //Remove when amalagated
 #include "drawVector.cpp"

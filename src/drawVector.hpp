@@ -1,8 +1,8 @@
 #include <vector>
 
-#ifndef DRAW_VECTOR
-#define DRAW_VECTOR
+#ifndef WALTR_DRAW_VECTOR
+#define WALTR_DRAW_VECTOR
 
 void drawVector(std::vector<int*> myVector);
 
-#endif // DRAW_VECTOR
+#endif // WALTR_DRAW_VECTOR

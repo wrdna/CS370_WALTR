@@ -3,8 +3,8 @@
 #include <stack>
 #include <queue>
 
-#ifndef DRAW_STRUCTURE
-#define DRAW_STRUCTURE
+#ifndef WALTR_DRAW_STRUCTURE
+#define WALTR_DRAW_STRUCTURE
 
 class Waltr {
 	private:
@@ -21,7 +21,7 @@ class Waltr {
 		template<std::size_t SIZE>
 		Waltr(const std::array<int, SIZE> &stl_array) {
 			toVector(stl_array.begin(), stl_array.end());
-			printVector(memory_vector);
+			drawVector(memory_vector);
 		}
 
 		//Overload for vectors
@@ -45,4 +45,4 @@ class Waltr {
 		//printQueue used for testing
 		void printQueue(std::queue<int> queue);
 };
-#endif // DRAW_STRUCTURE
+#endif // WALTR_DRAW_STRUCTURE

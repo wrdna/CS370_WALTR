@@ -79,6 +79,8 @@
 		"random": "cpp",
 		"*.tcc": "cpp",
 		"functional": "cpp",
-		"memory_resource": "cpp"
+		"memory_resource": "cpp",
+		"numeric": "cpp",
+		"fstream": "cpp"
 	}
 }
