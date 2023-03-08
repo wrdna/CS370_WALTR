@@ -2,9 +2,7 @@
 #include <iostream>
 #include <stack>
 
-using namespace std;
-
-void drawStack(stack<int> myStack);
+void drawStack(std::stack<int> myStack);
 
 // int main()
 // {
@@ -14,7 +12,7 @@ void drawStack(stack<int> myStack);
 //     drawStack(s);
 // }
 
-void drawStack(stack<int> myStack)
+void drawStack(std::stack<int> myStack)
 {
     
     int screenX = 320;
@@ -22,7 +20,7 @@ void drawStack(stack<int> myStack)
     int bufferX = 10;
     int bufferY = 20;
     
-    stack<int> set = myStack;
+    std::stack<int> set = myStack;
     
     int size = myStack.size();
     
@@ -55,7 +53,6 @@ void drawStack(stack<int> myStack)
                     set.pop();
                     bufferY += barHeight;
                     
-                    
                     for(int j = -1; j < i; j++)
                     {
                         for(int g = -1; g < j; g++)
@@ -63,11 +60,8 @@ void drawStack(stack<int> myStack)
                                 tigrUpdate(screen);
                         }
                     }
-                    
                 }
-            
-            ifprinted = true;
-            
+            ifprinted = true;   
         }
         tigrUpdate(screen);
     }
