@@ -29,7 +29,7 @@ void drawQueue(std::queue<int> myQueue) {
         
         if (!ifprinted) {
             tigrClear(screen, tigrRGB(0,0,0));
-            tigrPrint(screen, tfont, 160, 15, tigrRGB(255,0,0), "Index: ");
+            //tigrPrint(screen, tfont, 160, 15, tigrRGB(255,0,0), "Index: ");
             tigrPrint(screen, tfont, 200, 150, tigrRGB(38, 252, 66), "Front of Queue: %d", myQueue.front());
 
             bool test = false;
@@ -38,7 +38,7 @@ void drawQueue(std::queue<int> myQueue) {
                 tigrRect(screen, bufferX, bufferY, 150, barHeight, tigrRGB(0,0,0));
                 tigrFillRect(screen, bufferX, bufferY, 150, barHeight, tigrRGB(38, 252, 66));
                 tigrPrint(screen, tfont, ((bufferX+75)), (bufferY-barHeight/50), tigrRGB(102,178,200), "%d", set.front());
-                tigrPrint(screen, tfont, (bufferX+160), (bufferY-barHeight/50), tigrRGB(255,0,0), "%d", i);
+                //tigrPrint(screen, tfont, (bufferX+160), (bufferY-barHeight/50), tigrRGB(255,0,0), "%d", i);
                 if(set.size() == 1) {
                     tigrPrint(screen, tfont, 200, 200, tigrRGB(38, 252, 66), "End of Queue: %d", set.front());
                 }
