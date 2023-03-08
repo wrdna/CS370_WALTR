@@ -2,7 +2,7 @@
 #include <vector>
 #include <initializer_list>
 #include <iostream>
-#include "../drawStructure.hpp"
+#include "../waltr.hpp"
 
 int main(void) 
 {
@@ -20,12 +20,12 @@ int main(void)
 
 	}
 
-	DrawStructure stlArray = DrawStructure(arr_stl);
+	Waltr stlArray = Waltr(arr_stl);
 	std::cout << std::endl;
 	std::cout << std::endl;
-	DrawStructure cArray = DrawStructure(arr_c, 10);
+	Waltr cArray = Waltr(arr_c, 10);
 	std::cout << std::endl;
 	std::cout << std::endl;
-	DrawStructure newVec = DrawStructure(vec);
+	Waltr newVec = Waltr(vec);
 	std::cout << std::endl;
 }
