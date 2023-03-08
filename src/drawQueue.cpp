@@ -29,18 +29,18 @@ void drawQueue(std::queue<int> myQueue){
         
         if (!ifprinted) {
 
-            tigrClear(screen, tigrRGB(0x80, 0x90, 0xa0));
+            tigrClear(screen, tigrRGB(0,0,0));
 
-            tigrPrint(screen, tfont, 200, 150, tigrRGB(0,100,250), "Top of Queue: %d", myQueue.front());
+            tigrPrint(screen, tfont, 200, 150, tigrRGB(38, 252, 66), "Top of Queue: %d", myQueue.front());
 
             bool test = false;
 
             for(int i=0; i<size; i++) {
                 tigrRect(screen, bufferX, bufferY, 100, barHeight, tigrRGB(0,0,0));
-                tigrFillRect(screen, bufferX, bufferY, 100, barHeight, tigrRGB(250,250,0));
-                tigrPrint(screen, tfont, 160, (bufferY-barHeight/50), tigrRGB(0,100,250), "%d", set.front());
+                tigrFillRect(screen, bufferX, bufferY, 100, barHeight, tigrRGB(38, 252, 66));
+                tigrPrint(screen, tfont, 160, (bufferY-barHeight/50), tigrRGB(38, 252, 66), "%d", set.front());
                 if(set.size() == 1) {
-                    tigrPrint(screen, tfont, 200, 200, tigrRGB(0,100,250), "Bottom of Queue: %d", set.front());
+                    tigrPrint(screen, tfont, 200, 200, tigrRGB(38, 252, 66), "Bottom of Queue: %d", set.front());
                 }
                 set.pop();
                 bufferY += barHeight;

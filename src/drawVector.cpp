@@ -20,7 +20,7 @@ void drawVector(std::vector<int*> myVector) {
 
     //create screen
     Tigr* screen = tigrWindow(screenX, screenY, (char*)"Your vector!", 0);
-    tigrClear(screen, tigrRGB(0x80, 0x90, 0xa0));
+    tigrClear(screen, tigrRGB(0,0,0));
     while (!tigrClosed(screen) && !tigrKeyDown(screen, TK_ESCAPE)) {
      
         if (!ifprinted)
@@ -28,9 +28,9 @@ void drawVector(std::vector<int*> myVector) {
             for(int i=0; i < valuesLength; i++) {
                 
                 tigrRect(screen, bufferX, bufferY, boxWidth, boxWidth, tigrRGB(0,0,0));
-                tigrFillRect(screen, bufferX, bufferY, boxWidth, boxWidth, tigrRGB(250, 250, 0));
-                tigrPrint(screen, tfont, (bufferX+(boxWidth/2)), (bufferY + (boxWidth/2)), tigrRGB(0,0,0), "%d", *(myVector[i]));
-                tigrPrint(screen, tfont, (bufferX+(boxWidth/2)), (bufferY+boxWidth+5), tigrRGB(0, 100, 250), "%d", i);
+                tigrFillRect(screen, bufferX, bufferY, boxWidth, boxWidth, tigrRGB(38, 252, 66));
+                tigrPrint(screen, tfont, (bufferX+(boxWidth/2)), (bufferY + (boxWidth/2)), tigrRGB(38, 252, 66), "%d", *(myVector[i]));
+                tigrPrint(screen, tfont, (bufferX+(boxWidth/2)), (bufferY+boxWidth+5), tigrRGB(38, 252, 66), "%d", i);
                 bufferX = bufferX + boxWidth + 2;
                 
                 //myVector.pop_back();
