@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 
-void drawVector(std::vector<int*> myVector) {
+void drawVector(std::vector<int> myVector) {
     //create dimensions for a screen in tigr and include buffer for the edges
     int screenX = 320;
     int screenY = 240;
@@ -30,7 +30,7 @@ void drawVector(std::vector<int*> myVector) {
                 
                 tigrRect(screen, bufferX, bufferY, boxWidth, boxWidth, tigrRGB(0,0,0));
                 tigrFillRect(screen, bufferX, bufferY, boxWidth, boxWidth, tigrRGB(38, 252, 66));
-                tigrPrint(screen, tfont, (bufferX+(boxWidth/2)), (bufferY + (boxWidth/2)), tigrRGB(102,178,200), "%d", *(myVector[i]));
+                tigrPrint(screen, tfont, (bufferX+(boxWidth/2)), (bufferY + (boxWidth/2)), tigrRGB(102,178,200), "%d", myVector[i]);
                 tigrPrint(screen, tfont, (bufferX+(boxWidth/2)), (bufferY-(boxWidth/2)), tigrRGB(255, 0, 0), "%d", i);
                 bufferX = bufferX + boxWidth + 2;
                 

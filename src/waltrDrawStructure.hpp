@@ -8,7 +8,7 @@
 
 class Waltr {
 	private:
-		std::vector<int *> memory_vector;
+		std::vector<int> memory_vector;
 		//std::stack<int *> memory_stack;
 		//std::queue<int *> memory_queue;
 	public:
@@ -37,12 +37,21 @@ class Waltr {
 		void toVector(const int* begin, const int* end);
 		
 		//printVector used for testing
-		void printVector(std::vector<int *>vector);
+		void printVector(std::vector<int>vector);
 
 		//printStack used for testing
 		void printStack(std::stack<int> stack);
 
 		//printQueue used for testing
 		void printQueue(std::queue<int> queue);
+
+		
+		void drawVector(std::vector<int> myVector);
+
+		void drawQueue(std::queue<int> myQueue);
+
+		void drawStack(std::stack<int> myStack);
+
+
 };
 #endif // WALTR_DRAW_STRUCTURE

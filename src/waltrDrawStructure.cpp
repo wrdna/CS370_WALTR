@@ -4,13 +4,8 @@
 #include <queue>
 
 #include <iostream>
-
+#include "tigr.h"
 #include "waltrDrawStructure.hpp"
-
-//Remove when amalagated
-#include "drawVector.cpp"
-#include "drawStack.cpp"
-#include "drawQueue.cpp"
 
 /*
 The user will create an object with a constructor overload which will visualize the
@@ -66,7 +61,7 @@ INPUT: Pointer to beginning of array, pointer to end of array
 */
 void Waltr::toVector(const int* begin, const int* end) {
 	for(int*i = (int*)begin; i < end; i++) {
-		memory_vector.push_back(i);
+		memory_vector.push_back(*i);
 	}
 }
 
@@ -74,9 +69,9 @@ void Waltr::toVector(const int* begin, const int* end) {
 /*
 Prints vector, used for testing
 */
-void Waltr::printVector(std::vector<int *> vector) {
-	for(auto &x: vector) {
-		std::cout<<*x<<" ";
+void Waltr::printVector(std::vector<int> vector) {
+	for(auto x: vector) {
+		std::cout<<x<<" ";
 	}
 }
 
@@ -98,4 +93,143 @@ void Waltr::printQueue(std::queue<int> queue) {
 		std::cout<<queue.front()<<" ";
 		queue.pop();
 	}
+}
+
+void Waltr::drawVector(std::vector<int> myVector) {
+    //create dimensions for a screen in tigr and include buffer for the edges
+    int screenX = 320;
+    int screenY = 240;
+    int bufferX = 10;
+    int bufferY = 100;
+
+    //get the amount of elements in the vector
+    int valuesLength = myVector.size();
+
+    //scale the vector so it fits on screen
+    int boxWidth = (screenX/myVector.size()) - (bufferX*2);  
+
+    bool ifprinted = false;
+
+
+    //create screen
+    Tigr* screen = tigrWindow(screenX, screenY, (char*)"Your vector!", 0);
+    tigrClear(screen, tigrRGB(0,0,0));
+    tigrPrint(screen, tfont, bufferX, bufferY - 30, tigrRGB(255,0,0), "Index: ");
+    while (!tigrClosed(screen) && !tigrKeyDown(screen, TK_ESCAPE)) {
+    
+        if (!ifprinted) {
+            for(int i=0; i < valuesLength; i++) {
+                
+                tigrRect(screen, bufferX, bufferY, boxWidth, boxWidth, tigrRGB(0,0,0));
+                tigrFillRect(screen, bufferX, bufferY, boxWidth, boxWidth, tigrRGB(38, 252, 66));
+                tigrPrint(screen, tfont, (bufferX+(boxWidth/2)), (bufferY + (boxWidth/2)), tigrRGB(102,178,200), "%d", myVector[i]);
+                tigrPrint(screen, tfont, (bufferX+(boxWidth/2)), (bufferY-(boxWidth/2)), tigrRGB(255, 0, 0), "%d", i);
+                bufferX = bufferX + boxWidth + 2;
+                
+                //myVector.pop_back();
+                
+                for(int j = -1; j < i; j++) {
+                    for(int g = -1; g < j; g++) {
+                        tigrUpdate(screen);}
+                }
+            }
+            ifprinted = true;
+        }
+        tigrUpdate(screen);
+    }
+    tigrFree(screen);
+}
+
+void Waltr::drawQueue(std::queue<int> myQueue) {
+    int screenX = 320;
+    int screenY = 240;
+    int bufferX = 10;
+    int bufferY = 30;
+
+    int size = myQueue.size();
+    
+    std::queue<int> set = myQueue;
+
+    int barHeight = (screenY/size) - 10;
+    
+    bool ifprinted = false;
+
+    Tigr* screen = tigrWindow(screenX, screenY, (char*)"Your Queue!", 0);
+    while (!tigrClosed(screen) && !tigrKeyDown(screen, TK_ESCAPE)) {
+        
+        if (!ifprinted) {
+            tigrClear(screen, tigrRGB(0,0,0));
+            //tigrPrint(screen, tfont, 160, 15, tigrRGB(255,0,0), "Index: ");
+            tigrPrint(screen, tfont, 200, 150, tigrRGB(38, 252, 66), "Front of Queue: %d", myQueue.front());
+
+            bool test = false;
+
+            for(int i=0; i<size; i++) {
+                tigrRect(screen, bufferX, bufferY, 150, barHeight, tigrRGB(0,0,0));
+                tigrFillRect(screen, bufferX, bufferY, 150, barHeight, tigrRGB(38, 252, 66));
+                tigrPrint(screen, tfont, ((bufferX+75)), (bufferY-barHeight/50), tigrRGB(102,178,200), "%d", set.front());
+                //tigrPrint(screen, tfont, (bufferX+160), (bufferY-barHeight/50), tigrRGB(255,0,0), "%d", i);
+                if(set.size() == 1) {
+                    tigrPrint(screen, tfont, 200, 200, tigrRGB(38, 252, 66), "End of Queue: %d", set.front());
+                }
+                set.pop();
+                bufferY += barHeight;
+                for(int j = -1; j < i; j++) {
+                    for(int g = -1; g < j; g++) {
+                        tigrUpdate(screen);
+                    }
+                }
+            }
+            ifprinted = true;
+        }
+        tigrUpdate(screen);
+    }
+    tigrFree(screen); 
+}
+
+void Waltr::drawStack(std::stack<int> myStack)
+{
+    
+    int screenX = 320;
+    int screenY = 240;
+    int bufferX = 10;
+    int bufferY = 30;
+    
+    std::stack<int> set = myStack;
+    
+    int size = myStack.size();
+
+    int barHeight = (screenY/size) - 8;
+    
+    bool ifprinted = false;
+    
+    Tigr* screen = tigrWindow(screenX, screenY, (char*)"Your Stack!", 0);
+    
+    while (!tigrClosed(screen) && !tigrKeyDown(screen, TK_ESCAPE)){ 
+        if (!ifprinted) {
+            tigrClear(screen, tigrRGB(0,0,0));
+            //tigrPrint(screen, tfont, 160, 15, tigrRGB(255,0,0), "Index: ");
+            tigrPrint(screen, tfont, 180, 180, tigrRGB(38,252,66), "Top of stack: %d", myStack.top());
+            
+            for (int i = 0; i < size; i++) {
+                tigrRect(screen, bufferX, bufferY, 150, barHeight, tigrRGB(0,0,0));
+                tigrFillRect(screen, bufferX, bufferY, 150, barHeight, tigrRGB(38, 252, 66));
+                tigrPrint(screen, tfont, ((bufferX+75)), (bufferY-barHeight/50), tigrRGB(102,178,200), "%d", set.top());
+                //tigrPrint(screen, tfont, (bufferX+160), (bufferY-barHeight/50), tigrRGB(255,0,0), "%d", i);
+                if (set.size() == 1){
+                    tigrPrint(screen, tfont, 180, 200, tigrRGB(38, 252, 66), "Bottom of stack: %d", set.top());
+                }
+                set.pop();
+                bufferY += barHeight; 
+                for(int j = -1; j < i; j++) {
+                    for(int g = -1; g < j; g++) {
+                        tigrUpdate(screen);
+                    }
+                }
+            }
+            ifprinted = true;   
+        }
+        tigrUpdate(screen);
+    }
+    tigrFree(screen);
 }
