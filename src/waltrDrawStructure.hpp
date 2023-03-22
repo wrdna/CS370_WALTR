@@ -6,6 +6,13 @@
 #ifndef WALTR_DRAW_STRUCTURE
 #define WALTR_DRAW_STRUCTURE
 
+/*TODO:
+	Add log() function
+	Storing screens into an array, to be printed/cycled through 
+	Up/down arrow keys to move between structure versions saved by log() 
+
+*/
+
 class Waltr {
 	private:
 		std::vector<int> memory_vector;
