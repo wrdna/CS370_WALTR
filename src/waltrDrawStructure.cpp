@@ -79,7 +79,6 @@ std::vector<int> Waltr::toVector(const int* begin, const int* end) {
     return vector;
 }
 
-
 /*
 Prints vector, used for testing
 */
@@ -280,4 +279,14 @@ void Waltr::drawStack(std::stack<int> myStack)
         tigrUpdate(screen);
     }
     tigrFree(screen);
+}
+
+Waltr::~Waltr() {
+    if (!vector_log.empty()) {
+        printVectorLog();
+    } else if (!stack_log.empty()) {
+        printStackLog();
+    } else if (!stack_log.empty()) {
+        printVectorLog();
+    }
 }

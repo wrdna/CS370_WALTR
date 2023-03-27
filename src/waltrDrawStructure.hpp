@@ -13,12 +13,10 @@
 */
 class Waltr {
 	private:
-		std::vector<int> memory_vector;
+		//There is a better way to do this (Likely templates)
 		std::vector<std::vector<int>> vector_log;
 		std::vector<std::stack<int>> stack_log;
 		std::vector<std::queue<int>> queue_log;
-		//std::stack<int *> memory_stack;
-		//std::queue<int *> memory_queue;
 	public:
 		//Overload for C-Style arrays
 		Waltr(const int* c_array, int c_size);
@@ -53,8 +51,10 @@ class Waltr {
 
 		//printVector used for testing
 		void printVector(std::vector<int>vector);
+		
 		//printStack used for testing
 		void printStack(std::stack<int> stack);
+		
 		//printQueue used for testing
 		void printQueue(std::queue<int> queue);
 
@@ -73,15 +73,8 @@ class Waltr {
 
 		void drawStack(std::stack<int> myStack);
 
-		~Waltr() {
-			if (!vector_log.empty()) {
-				printVectorLog();
-			} else if (!stack_log.empty()) {
-				printStackLog();
-			} else if (!stack_log.empty()) {
-				printVectorLog();
-			}
-		}
+		//DESTRUCTOR!!!
+		~Waltr();
 
 };
 #endif // WALTR_DRAW_STRUCTURE
