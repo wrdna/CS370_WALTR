@@ -13,15 +13,12 @@ passed data structure.
 INPUT: A data stucture, currently STL arrays, C-Style arrays, Vectors, Stacks, and Queues.
 */
 
-
-
 /*
 C-Style array constructor overload
 INPUT: Pointer to C-Style Array, Size of array
 */
 Waltr::Waltr(const int* c_array, int c_size) {
-	toVector(c_array, c_array + c_size);
-	drawVector(memory_vector);
+	logVector(toVector(c_array, c_array + c_size));
 }
 
 /*
@@ -29,40 +26,57 @@ Vector constructor overload
 INPUT: Pointer to vector
 */
 Waltr::Waltr(const std::vector<int> vector) {
-    toVector(vector.data(), vector.data() + vector.size());
-	drawVector(memory_vector);
+    logVector(vector);
 }
-
 
 /*
 Stack constructor overload
 INPUT: Pointer to stack
-
-Currently does not reference initial memory from the passed structure. (TODO)
 */
 Waltr::Waltr(const std::stack<int> stack) {
-	drawStack(stack);
+	logStack(stack);
 }
 
 /*
 Queue constructor overload
 INPUT: Pointer to queue
-
-Currently does not reference initial memory from the passed structure. (TODO)
 */
 Waltr::Waltr(const std::queue<int> queue) {
-	drawQueue(queue);
+	logQueue(queue);
 }
 
 /*
-Creates a shallow copy of the inputted structure, and stored
-in the created DataStructure object.
-INPUT: Pointer to beginning of array, pointer to end of array
+Stores a copy of the vectors current contents
 */
-void Waltr::toVector(const int* begin, const int* end) {
-	for(int*i = (int*)begin; i < end; i++) {
-		memory_vector.push_back(*i);
+void Waltr::logVector(std::vector<int> vector) {
+    vector_log.push_back(vector);
+}
+
+/*
+Stores a copy of the stacks current contents
+*/
+void Waltr::logStack(std::stack<int> stack) {
+    stack_log.push_back(stack);
+}
+
+/*
+Stores a copy of the queues current contents
+*/
+void Waltr::logQueue(std::queue<int> queue) {
+    queue_log.push_back(queue);
+}
+
+/*
+Converts array to vector.
+*/
+std::vector<int> Waltr::toVector(const int* begin, const int* end) {
+	std::vector<int> vector;
+
+    for(int*i = (int*)begin; i < end; i++) {
+		vector.push_back(*i);
 	}
+
+    return vector;
 }
 
 
@@ -93,6 +107,40 @@ void Waltr::printQueue(std::queue<int> queue) {
 		std::cout<<queue.front()<<" ";
 		queue.pop();
 	}
+}
+
+/*
+Prints vector log, used for testing
+*/
+void Waltr::printVectorLog() {
+	for(auto vec: vector_log) {
+        for(auto x: vec) {
+		    std::cout<<x<<" ";
+	    }
+        std::cout<<std::endl;
+	}
+}
+
+/*
+Prints vector log, used for testing
+*/
+void Waltr::printStackLog() {
+	for(auto stack: stack_log) {
+        std::cout<<stack.top()<<" ";
+        stack.pop();
+    }
+    std::cout<<std::endl;
+}
+
+/*
+Prints vector log, used for testing
+*/
+void Waltr::printQueueLog() {
+	for(auto queue: queue_log) {
+        std::cout<<queue.front()<<" ";
+        queue.pop();
+	}
+        std::cout<<std::endl;
 }
 
 void Waltr::drawVector(std::vector<int> myVector) {
