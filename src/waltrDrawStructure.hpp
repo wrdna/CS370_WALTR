@@ -3,6 +3,7 @@
 #include <stack>
 #include <queue>
 #include <typeinfo>
+#include "tigr.h"
 
 #ifndef WALTR_DRAW_STRUCTURE
 #define WALTR_DRAW_STRUCTURE
@@ -17,6 +18,21 @@ class Waltr {
 		std::vector<std::vector<int>> vector_log;
 		std::vector<std::stack<int>> stack_log;
 		std::vector<std::queue<int>> queue_log;
+		Tigr* current_screen;
+		Tigr* temp_screen;
+		std::vector<Tigr*> screen_list;
+		int ifprinted = false;
+		int buttons;
+		int valuesLength;
+		int mouseX = 0;
+		int mouseY = 0;
+		int screenX = 320;
+    	int screenY = 240;
+		int boxWidth;
+		int barHeight;
+		int bufferX;
+		int bufferY;
+		std::vector<int> coords;
 	public:
 		//Overload for C-Style arrays
 		Waltr(const int* c_array, int c_size);
@@ -67,11 +83,13 @@ class Waltr {
 		//prints queue log for testing
 		void printQueueLog();
 		
-		void drawVector(std::vector<int> myVector);
+		Tigr* drawVector(std::vector<int> myVector);
 
 		void drawQueue(std::queue<int> myQueue);
 
 		void drawStack(std::stack<int> myStack);
+
+		void openVectorWindow();
 
 		//DESTRUCTOR!!!
 		~Waltr();

@@ -142,51 +142,6 @@ void Waltr::printQueueLog() {
         std::cout<<std::endl;
 }
 
-void Waltr::drawVector(std::vector<int> myVector) {
-    //create dimensions for a screen in tigr and include buffer for the edges
-    int screenX = 320;
-    int screenY = 240;
-    int bufferX = 10;
-    int bufferY = 100;
-
-    //get the amount of elements in the vector
-    int valuesLength = myVector.size();
-
-    //scale the vector so it fits on screen
-    int boxWidth = (screenX/myVector.size()) - (bufferX*2);  
-
-    bool ifprinted = false;
-
-
-    //create screen
-    Tigr* screen = tigrWindow(screenX, screenY, (char*)"Your vector!", 0);
-    tigrClear(screen, tigrRGB(0,0,0));
-    tigrPrint(screen, tfont, bufferX, bufferY - 30, tigrRGB(255,0,0), "Index: ");
-    while (!tigrClosed(screen) && !tigrKeyDown(screen, TK_ESCAPE)) {
-    
-        if (!ifprinted) {
-            for(int i=0; i < valuesLength; i++) {
-                
-                tigrRect(screen, bufferX, bufferY, boxWidth, boxWidth, tigrRGB(0,0,0));
-                tigrFillRect(screen, bufferX, bufferY, boxWidth, boxWidth, tigrRGB(38, 252, 66));
-                tigrPrint(screen, tfont, (bufferX+(boxWidth/2)), (bufferY + (boxWidth/2)), tigrRGB(102,178,200), "%d", myVector[i]);
-                tigrPrint(screen, tfont, (bufferX+(boxWidth/2)), (bufferY-(boxWidth/2)), tigrRGB(255, 0, 0), "%d", i);
-                bufferX = bufferX + boxWidth + 2;
-                
-                //myVector.pop_back();
-                
-                for(int j = -1; j < i; j++) {
-                    for(int g = -1; g < j; g++) {
-                        tigrUpdate(screen);}
-                }
-            }
-            ifprinted = true;
-        }
-        tigrUpdate(screen);
-    }
-    tigrFree(screen);
-}
-
 void Waltr::drawQueue(std::queue<int> myQueue) {
     int screenX = 320;
     int screenY = 240;
@@ -234,59 +189,74 @@ void Waltr::drawQueue(std::queue<int> myQueue) {
     tigrFree(screen); 
 }
 
-void Waltr::drawStack(std::stack<int> myStack)
-{
-    
-    int screenX = 320;
-    int screenY = 240;
-    int bufferX = 10;
-    int bufferY = 30;
-    
-    std::stack<int> set = myStack;
-    
-    int size = myStack.size();
+Tigr* Waltr::drawVector(std::vector<int> myVector) {
+    Tigr* screen = tigrWindow(screenX, screenY, (char*)"Your data structure!", 0);
+    bufferX = 90;
+    bufferY = 210;
 
-    int barHeight = (screenY/size) - 8;
-    
-    bool ifprinted = false;
-    
-    Tigr* screen = tigrWindow(screenX, screenY, (char*)"Your Stack!", 0);
-    
-    while (!tigrClosed(screen) && !tigrKeyDown(screen, TK_ESCAPE)){ 
-        if (!ifprinted) {
-            tigrClear(screen, tigrRGB(0,0,0));
-            //tigrPrint(screen, tfont, 160, 15, tigrRGB(255,0,0), "Index: ");
-            tigrPrint(screen, tfont, 180, 180, tigrRGB(38,252,66), "Top of stack: %d", myStack.top());
-            
-            for (int i = 0; i < size; i++) {
-                tigrRect(screen, bufferX, bufferY, 150, barHeight, tigrRGB(0,0,0));
-                tigrFillRect(screen, bufferX, bufferY, 150, barHeight, tigrRGB(38, 252, 66));
-                tigrPrint(screen, tfont, ((bufferX+75)), (bufferY-barHeight/50), tigrRGB(102,178,200), "%d", set.top());
-                //tigrPrint(screen, tfont, (bufferX+160), (bufferY-barHeight/50), tigrRGB(255,0,0), "%d", i);
-                if (set.size() == 1){
-                    tigrPrint(screen, tfont, 180, 200, tigrRGB(38, 252, 66), "Bottom of stack: %d", set.top());
-                }
-                set.pop();
-                bufferY += barHeight; 
-                for(int j = -1; j < i; j++) {
-                    for(int g = -1; g < j; g++) {
-                        tigrUpdate(screen);
-                    }
+    //get the amount of elements in the vector
+    valuesLength = myVector.size();
+    coords.resize(valuesLength);
+
+    //scale the vector so it fits on screen
+    boxWidth = (screenX/myVector.size()) - 20;
+
+    for(int i=0; i < valuesLength; i++) {
+        tigrRect(screen, bufferX, bufferY, boxWidth, boxWidth, tigrRGB(0,0,0));
+        tigrFillRect(screen, bufferX, bufferY, boxWidth, boxWidth, tigrRGB(38, 252, 66));
+        tigrPrint(screen, tfont, bufferX + 3, bufferY - 15, tigrRGB(255, 0, 0), "%d", i);
+        coords[i] = bufferX;
+        bufferX = bufferX + boxWidth + 2;
+    }
+    return screen;
+}
+
+void Waltr::openVectorWindow() {
+    //tigrClear(screen, tigrRGB(0,0,0));
+    int vector_index = 0;
+    current_screen = drawVector(vector_log[0]);
+    tigrUpdate(current_screen);
+    while (!tigrClosed(current_screen) && !tigrKeyDown(current_screen, TK_ESCAPE)) {
+        tigrMouse(current_screen, &mouseX, &mouseY, &buttons);
+        if (tigrKeyDown(current_screen, TK_UP)  && vector_index < screen_list.size() - 1) {
+            vector_index++;
+            current_screen = drawVector(vector_log[vector_index]);
+        }
+        if (tigrKeyDown(current_screen, TK_DOWN) && vector_index > 0) {
+            vector_index--;
+            current_screen = drawVector(vector_log[vector_index]);
+        }
+
+        tigrUpdate(current_screen);
+
+        for (int i = 0; i < valuesLength; i++) {
+            if(mouseX > coords[i] && mouseX < (coords[i] + boxWidth) && mouseY > bufferY && mouseY < (bufferY + boxWidth)) {
+                // if mouse button clicked
+                if(buttons & 1) {
+                    tigrRect(current_screen, screenX/2, screenY/2 - 30, screenX, boxWidth + 10, tigrRGB(0,0,0));
+                    tigrFillRect(current_screen, screenX/2, screenY/2 - 30, screenX, boxWidth + 10, tigrRGB(0,0,0));
+                    tigrPrint(current_screen, tfont, screenX/2 + 30, screenY/2 - 30, tigrRGB(255,0,0), "Index: %d", i);
+                    
+                    tigrRect(current_screen, screenX/2, screenY/2 - 10, screenX, boxWidth + 10, tigrRGB(0,0,0));
+                    tigrFillRect(current_screen, screenX/2, screenY/2 - 10, screenX, boxWidth + 10, tigrRGB(0,0,0));
+                    tigrPrint(current_screen, tfont, screenX/2 + 30, screenY/2 - 10, tigrRGB(255,0,0), "Type: %s", typeid(i).name());
+                    
+                    tigrRect(current_screen, screenX/2 - 40, screenY/2 - 40, 50, 50, tigrRGB(0,0,0));
+                    tigrFillRect(current_screen, screenX/2 - 40, screenY/2 - 40, 50, 50, tigrRGB(38, 252, 66));
+                    tigrPrint(current_screen, tfont, screenX/2 - 30, screenY/2 - 30, tigrRGB(255,0,0), "%d", vector_log[vector_index][i]);  
                 }
             }
-            ifprinted = true;   
         }
-        tigrUpdate(screen);
     }
-    tigrFree(screen);
+    tigrFree(current_screen);
 }
 
 Waltr::~Waltr() {
     if (!vector_log.empty()) {
-        printVectorLog();
+        openVectorWindow();    
     } else if (!stack_log.empty()) {
         printStackLog();
     } else if (!stack_log.empty()) {
-        printVectorLog();
+
     }
 }
