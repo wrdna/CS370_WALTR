@@ -204,8 +204,8 @@ void Waltr::drawVector(std::vector<int> myVector) {
 
     for(int i=0; i < valuesLength; i++) {
         tigrRect(current_screen, bufferX, bufferY, boxWidth, boxWidth, tigrRGB(0,0,0));
-        tigrFillRect(current_screen, bufferX, bufferY, boxWidth, boxWidth, tigrRGB(38, 252, 66));
-        tigrPrint(current_screen, tfont, bufferX + 3, bufferY - 15, tigrRGB(255, 0, 0), "%d", i);
+        tigrFillRect(current_screen, bufferX, bufferY, boxWidth, boxWidth, tigrRGB(0, 50, 0));
+        tigrPrint(current_screen, tfont, bufferX + 3, bufferY - 15, tigrRGB(60, 0, 0), "%d", i);
         coords[i] = bufferX;
         bufferX = bufferX + boxWidth + 2;
     }
@@ -221,7 +221,8 @@ void Waltr::drawVector(std::vector<int> myVector) {
     tigrFillRect(current_screen, screenX/2 - 40, screenY/2 - 40, 50, 50, tigrRGB(38, 252, 66));
     tigrPrint(current_screen, tfont, screenX/2 - 30, screenY/2 - 30, tigrRGB(255,0,0), "%d", vector_log[vector_index][item_index]);
 
-    tigrFillRect(current_screen, coords[item_index], bufferY, boxWidth, boxWidth, tigrRGB(0, 0, 255));
+    tigrFillRect(current_screen, coords[item_index]-2, bufferY-2, boxWidth+4, boxWidth+4, tigrRGB(0, 200, 0));
+    tigrPrint(current_screen, tfont, coords[item_index]+3, bufferY - 15, tigrRGB(255, 0, 0), "%d", item_index);
 }
 
 void Waltr::openVectorWindow() {
