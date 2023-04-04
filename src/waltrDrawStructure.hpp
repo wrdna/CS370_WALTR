@@ -19,8 +19,6 @@ class Waltr {
 		std::vector<std::stack<int>> stack_log;
 		std::vector<std::queue<int>> queue_log;
 		Tigr* current_screen;
-		Tigr* temp_screen;
-		std::vector<Tigr*> screen_list;
 		int ifprinted = false;
 		int buttons;
 		int valuesLength;
@@ -83,7 +81,7 @@ class Waltr {
 		//prints queue log for testing
 		void printQueueLog();
 		
-		Tigr* drawVector(std::vector<int> myVector);
+		void drawVector(std::vector<int> myVector);
 
 		void drawQueue(std::queue<int> myQueue);
 

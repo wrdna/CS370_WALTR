@@ -189,8 +189,8 @@ void Waltr::drawQueue(std::queue<int> myQueue) {
     tigrFree(screen); 
 }
 
-Tigr* Waltr::drawVector(std::vector<int> myVector) {
-    Tigr* screen = tigrWindow(screenX, screenY, (char*)"Your data structure!", 0);
+void Waltr::drawVector(std::vector<int> myVector) {
+    tigrClear(current_screen,tigrRGB(0,0,0));
     bufferX = 90;
     bufferY = 210;
 
@@ -202,29 +202,32 @@ Tigr* Waltr::drawVector(std::vector<int> myVector) {
     boxWidth = (screenX/myVector.size()) - 20;
 
     for(int i=0; i < valuesLength; i++) {
-        tigrRect(screen, bufferX, bufferY, boxWidth, boxWidth, tigrRGB(0,0,0));
-        tigrFillRect(screen, bufferX, bufferY, boxWidth, boxWidth, tigrRGB(38, 252, 66));
-        tigrPrint(screen, tfont, bufferX + 3, bufferY - 15, tigrRGB(255, 0, 0), "%d", i);
+        tigrRect(current_screen, bufferX, bufferY, boxWidth, boxWidth, tigrRGB(0,0,0));
+        tigrFillRect(current_screen, bufferX, bufferY, boxWidth, boxWidth, tigrRGB(38, 252, 66));
+        tigrPrint(current_screen, tfont, bufferX + 3, bufferY - 15, tigrRGB(255, 0, 0), "%d", i);
         coords[i] = bufferX;
         bufferX = bufferX + boxWidth + 2;
     }
-    return screen;
 }
 
 void Waltr::openVectorWindow() {
     //tigrClear(screen, tigrRGB(0,0,0));
+    current_screen = tigrWindow(screenX, screenY, (char*)"Your data structure!", 0);
     int vector_index = 0;
-    current_screen = drawVector(vector_log[0]);
+    drawVector(vector_log[0]);
+    tigrPrint(current_screen, tfont, 30, 30, tigrRGB(255,0,0), "%d / %d", vector_index, vector_log.size()-1);
     tigrUpdate(current_screen);
     while (!tigrClosed(current_screen) && !tigrKeyDown(current_screen, TK_ESCAPE)) {
         tigrMouse(current_screen, &mouseX, &mouseY, &buttons);
-        if (tigrKeyDown(current_screen, TK_UP)  && vector_index < screen_list.size() - 1) {
+        if (tigrKeyDown(current_screen, TK_UP)  && vector_index < vector_log.size()-1) {
             vector_index++;
-            current_screen = drawVector(vector_log[vector_index]);
+            drawVector(vector_log[vector_index]);
+            tigrPrint(current_screen, tfont, 30, 30, tigrRGB(255,0,0), "%d / %d", vector_index, vector_log.size()-1);
         }
         if (tigrKeyDown(current_screen, TK_DOWN) && vector_index > 0) {
             vector_index--;
-            current_screen = drawVector(vector_log[vector_index]);
+            drawVector(vector_log[vector_index]);
+            tigrPrint(current_screen, tfont, 30, 30, tigrRGB(255,0,0), "%d / %d", vector_index, vector_log.size()-1);
         }
 
         tigrUpdate(current_screen);
