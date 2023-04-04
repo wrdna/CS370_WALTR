@@ -200,7 +200,7 @@ void Waltr::drawVector(std::vector<int> myVector) {
     //scale the vector so it fits on screen
     boxWidth = (screenX/myVector.size()) - 20;
 
-    tigrPrint(current_screen, tfont, 30, 30, tigrRGB(255,0,0), "Current instance: %d / %d", vector_index, vector_log.size()-1);
+    tigrPrint(current_screen, tfont, 30, 30, tigrRGB(50,50,200), "Current instance: %d / %d", vector_index, vector_log.size()-1);
 
     for(int i=0; i < valuesLength; i++) {
         tigrRect(current_screen, bufferX, bufferY, boxWidth, boxWidth, tigrRGB(0,0,0));
