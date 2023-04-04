@@ -240,8 +240,6 @@ void Waltr::openVectorWindow() {
     drawVector(vector_log[0]);
     tigrUpdate(current_screen);
     while (!tigrClosed(current_screen) && !tigrKeyDown(current_screen, TK_ESCAPE)) {
-        tigrMouse(current_screen, &mouseX, &mouseY, &buttons);
-
         if (tigrKeyDown(current_screen, TK_UP)  && vector_index < vector_log.size()-1) {
             vector_index++;
             tigrClear(current_screen,tigrRGB(0,0,0));
@@ -265,25 +263,6 @@ void Waltr::openVectorWindow() {
             drawVector(vector_log[vector_index]);
         }
         tigrUpdate(current_screen);
-
-        // for (int i = 0; i < valuesLength; i++) {
-        //     if(mouseX > coords[i] && mouseX < (coords[i] + boxWidth) && mouseY > bufferY && mouseY < (bufferY + boxWidth)) {
-        //         // if mouse button clicked
-        //         if(buttons & 1) {
-        //             tigrRect(current_screen, screenX/2, screenY/2 - 30, screenX, boxWidth + 10, tigrRGB(0,0,0));
-        //             tigrFillRect(current_screen, screenX/2, screenY/2 - 30, screenX, boxWidth + 10, tigrRGB(0,0,0));
-        //             tigrPrint(current_screen, tfont, screenX/2 + 30, screenY/2 - 30, tigrRGB(255,0,0), "Index: %d", i);
-                    
-        //             tigrRect(current_screen, screenX/2, screenY/2 - 10, screenX, boxWidth + 10, tigrRGB(0,0,0));
-        //             tigrFillRect(current_screen, screenX/2, screenY/2 - 10, screenX, boxWidth + 10, tigrRGB(0,0,0));
-        //             tigrPrint(current_screen, tfont, screenX/2 + 30, screenY/2 - 10, tigrRGB(255,0,0), "Type: %s", typeid(i).name());
-                    
-        //             tigrRect(current_screen, screenX/2 - 40, screenY/2 - 40, 50, 50, tigrRGB(0,0,0));
-        //             tigrFillRect(current_screen, screenX/2 - 40, screenY/2 - 40, 50, 50, tigrRGB(38, 252, 66));
-        //             tigrPrint(current_screen, tfont, screenX/2 - 30, screenY/2 - 30, tigrRGB(255,0,0), "%d", vector_log[vector_index][i]);  
-        //         }
-        //     }
-        // }
     }
     tigrFree(current_screen);
 }
@@ -292,8 +271,8 @@ Waltr::~Waltr() {
     if (!vector_log.empty()) {
         openVectorWindow();    
     } else if (!stack_log.empty()) {
-        printStackLog();
-    } else if (!stack_log.empty()) {
-
+        //openStackWindow();
+    } else if (!queue_log.empty()) {
+        //openQueueWindow();
     }
 }
