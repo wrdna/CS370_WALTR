@@ -218,6 +218,10 @@ void Waltr::openVectorWindow() {
     
     //Used to iterate over vector log
     int vector_index = 0;
+
+    //Used to iterate through current vector
+    int item_index = 0;
+
     //prints initial vector and instance number
     drawVector(vector_log[0]);
     tigrPrint(current_screen, tfont, 30, 30, tigrRGB(255,0,0), "Current instance: %d / %d", vector_index, vector_log.size()-1);
@@ -235,26 +239,55 @@ void Waltr::openVectorWindow() {
             tigrPrint(current_screen, tfont, 30, 30, tigrRGB(255,0,0), "Current instance: %d / %d", vector_index, vector_log.size()-1);
         }
 
+        if (tigrKeyDown(current_screen, TK_RIGHT) && item_index < vector_log[vector_index].size()-1) {
+            item_index++;
+            tigrRect(current_screen, screenX/2, screenY/2 - 30, screenX, boxWidth + 10, tigrRGB(0,0,0));
+            tigrFillRect(current_screen, screenX/2, screenY/2 - 30, screenX, boxWidth + 10, tigrRGB(0,0,0));
+            tigrPrint(current_screen, tfont, screenX/2 + 30, screenY/2 - 30, tigrRGB(255,0,0), "Index: %d", item_index);
+            
+            tigrRect(current_screen, screenX/2, screenY/2 - 10, screenX, boxWidth + 10, tigrRGB(0,0,0));
+            tigrFillRect(current_screen, screenX/2, screenY/2 - 10, screenX, boxWidth + 10, tigrRGB(0,0,0));
+            tigrPrint(current_screen, tfont, screenX/2 + 30, screenY/2 - 10, tigrRGB(255,0,0), "Type: %s", typeid(item_index).name());
+            
+            tigrRect(current_screen, screenX/2 - 40, screenY/2 - 40, 50, 50, tigrRGB(0,0,0));
+            tigrFillRect(current_screen, screenX/2 - 40, screenY/2 - 40, 50, 50, tigrRGB(38, 252, 66));
+            tigrPrint(current_screen, tfont, screenX/2 - 30, screenY/2 - 30, tigrRGB(255,0,0), "%d", vector_log[vector_index][item_index]);
+        }
+
+        if (tigrKeyDown(current_screen, TK_LEFT) && item_index > 0) {
+            item_index--;
+            tigrRect(current_screen, screenX/2, screenY/2 - 30, screenX, boxWidth + 10, tigrRGB(0,0,0));
+            tigrFillRect(current_screen, screenX/2, screenY/2 - 30, screenX, boxWidth + 10, tigrRGB(0,0,0));
+            tigrPrint(current_screen, tfont, screenX/2 + 30, screenY/2 - 30, tigrRGB(255,0,0), "Index: %d", item_index);
+            
+            tigrRect(current_screen, screenX/2, screenY/2 - 10, screenX, boxWidth + 10, tigrRGB(0,0,0));
+            tigrFillRect(current_screen, screenX/2, screenY/2 - 10, screenX, boxWidth + 10, tigrRGB(0,0,0));
+            tigrPrint(current_screen, tfont, screenX/2 + 30, screenY/2 - 10, tigrRGB(255,0,0), "Type: %s", typeid(item_index).name());
+            
+            tigrRect(current_screen, screenX/2 - 40, screenY/2 - 40, 50, 50, tigrRGB(0,0,0));
+            tigrFillRect(current_screen, screenX/2 - 40, screenY/2 - 40, 50, 50, tigrRGB(38, 252, 66));
+            tigrPrint(current_screen, tfont, screenX/2 - 30, screenY/2 - 30, tigrRGB(255,0,0), "%d", vector_log[vector_index][item_index]);
+        }
         tigrUpdate(current_screen);
 
-        for (int i = 0; i < valuesLength; i++) {
-            if(mouseX > coords[i] && mouseX < (coords[i] + boxWidth) && mouseY > bufferY && mouseY < (bufferY + boxWidth)) {
-                // if mouse button clicked
-                if(buttons & 1) {
-                    tigrRect(current_screen, screenX/2, screenY/2 - 30, screenX, boxWidth + 10, tigrRGB(0,0,0));
-                    tigrFillRect(current_screen, screenX/2, screenY/2 - 30, screenX, boxWidth + 10, tigrRGB(0,0,0));
-                    tigrPrint(current_screen, tfont, screenX/2 + 30, screenY/2 - 30, tigrRGB(255,0,0), "Index: %d", i);
+        // for (int i = 0; i < valuesLength; i++) {
+        //     if(mouseX > coords[i] && mouseX < (coords[i] + boxWidth) && mouseY > bufferY && mouseY < (bufferY + boxWidth)) {
+        //         // if mouse button clicked
+        //         if(buttons & 1) {
+        //             tigrRect(current_screen, screenX/2, screenY/2 - 30, screenX, boxWidth + 10, tigrRGB(0,0,0));
+        //             tigrFillRect(current_screen, screenX/2, screenY/2 - 30, screenX, boxWidth + 10, tigrRGB(0,0,0));
+        //             tigrPrint(current_screen, tfont, screenX/2 + 30, screenY/2 - 30, tigrRGB(255,0,0), "Index: %d", i);
                     
-                    tigrRect(current_screen, screenX/2, screenY/2 - 10, screenX, boxWidth + 10, tigrRGB(0,0,0));
-                    tigrFillRect(current_screen, screenX/2, screenY/2 - 10, screenX, boxWidth + 10, tigrRGB(0,0,0));
-                    tigrPrint(current_screen, tfont, screenX/2 + 30, screenY/2 - 10, tigrRGB(255,0,0), "Type: %s", typeid(i).name());
+        //             tigrRect(current_screen, screenX/2, screenY/2 - 10, screenX, boxWidth + 10, tigrRGB(0,0,0));
+        //             tigrFillRect(current_screen, screenX/2, screenY/2 - 10, screenX, boxWidth + 10, tigrRGB(0,0,0));
+        //             tigrPrint(current_screen, tfont, screenX/2 + 30, screenY/2 - 10, tigrRGB(255,0,0), "Type: %s", typeid(i).name());
                     
-                    tigrRect(current_screen, screenX/2 - 40, screenY/2 - 40, 50, 50, tigrRGB(0,0,0));
-                    tigrFillRect(current_screen, screenX/2 - 40, screenY/2 - 40, 50, 50, tigrRGB(38, 252, 66));
-                    tigrPrint(current_screen, tfont, screenX/2 - 30, screenY/2 - 30, tigrRGB(255,0,0), "%d", vector_log[vector_index][i]);  
-                }
-            }
-        }
+        //             tigrRect(current_screen, screenX/2 - 40, screenY/2 - 40, 50, 50, tigrRGB(0,0,0));
+        //             tigrFillRect(current_screen, screenX/2 - 40, screenY/2 - 40, 50, 50, tigrRGB(38, 252, 66));
+        //             tigrPrint(current_screen, tfont, screenX/2 - 30, screenY/2 - 30, tigrRGB(255,0,0), "%d", vector_log[vector_index][i]);  
+        //         }
+        //     }
+        // }
     }
     tigrFree(current_screen);
 }
