@@ -30,6 +30,8 @@ class Waltr {
 		int barHeight;
 		int bufferX;
 		int bufferY;
+		int vector_index;
+		int item_index;
 		std::vector<int> coords;
 	public:
 		//Overload for C-Style arrays
@@ -81,6 +83,7 @@ class Waltr {
 		//prints queue log for testing
 		void printQueueLog();
 		
+		//prints inputted vector to screen
 		void drawVector(std::vector<int> myVector);
 
 		void drawQueue(std::queue<int> myQueue);
