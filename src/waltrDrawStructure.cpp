@@ -211,23 +211,28 @@ void Waltr::drawVector(std::vector<int> myVector) {
 }
 
 void Waltr::openVectorWindow() {
+    //Order of vectors displayed may need to be flipped
+
     //tigrClear(screen, tigrRGB(0,0,0));
-    current_screen = tigrWindow(screenX, screenY, (char*)"Your data structure!", 0);
+    current_screen = tigrWindow(screenX, screenY, (char*)"Your Vector!", 0);
+    
+    //Used to iterate over vector log
     int vector_index = 0;
+    //prints initial vector and instance number
     drawVector(vector_log[0]);
-    tigrPrint(current_screen, tfont, 30, 30, tigrRGB(255,0,0), "%d / %d", vector_index, vector_log.size()-1);
+    tigrPrint(current_screen, tfont, 30, 30, tigrRGB(255,0,0), "Current instance: %d / %d", vector_index, vector_log.size()-1);
     tigrUpdate(current_screen);
     while (!tigrClosed(current_screen) && !tigrKeyDown(current_screen, TK_ESCAPE)) {
         tigrMouse(current_screen, &mouseX, &mouseY, &buttons);
         if (tigrKeyDown(current_screen, TK_UP)  && vector_index < vector_log.size()-1) {
             vector_index++;
             drawVector(vector_log[vector_index]);
-            tigrPrint(current_screen, tfont, 30, 30, tigrRGB(255,0,0), "%d / %d", vector_index, vector_log.size()-1);
+            tigrPrint(current_screen, tfont, 30, 30, tigrRGB(255,0,0), "Current instance: %d / %d", vector_index, vector_log.size()-1);
         }
         if (tigrKeyDown(current_screen, TK_DOWN) && vector_index > 0) {
             vector_index--;
             drawVector(vector_log[vector_index]);
-            tigrPrint(current_screen, tfont, 30, 30, tigrRGB(255,0,0), "%d / %d", vector_index, vector_log.size()-1);
+            tigrPrint(current_screen, tfont, 30, 30, tigrRGB(255,0,0), "Current instance: %d / %d", vector_index, vector_log.size()-1);
         }
 
         tigrUpdate(current_screen);
