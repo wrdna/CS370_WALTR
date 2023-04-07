@@ -31,6 +31,8 @@ class Waltr {
 		int bufferX;
 		int bufferY;
 		int vector_index;
+		int queue_index;
+		int stack_index;
 		int item_index;
 		std::vector<int> coords;
 	public:
@@ -84,15 +86,19 @@ class Waltr {
 		void printQueueLog();
 		
 		//prints inputted vector to screen
-		void drawVector(std::vector<int> myVector);
-		void drawVectorMouse(std::vector<int> myVector);
+		void drawVector();
 		
-		void drawQueue(std::queue<int> myQueue);
-
+		void drawVectorMouse();
+		
+		void drawQueue();
+		
 		void drawStack(std::stack<int> myStack);
 
 		void openVectorWindow();
+		
 		void openVectorWindowMouse();
+		
+		void openQueueWindow();
 
 
 		//DESTRUCTOR!!!

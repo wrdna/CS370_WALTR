@@ -142,126 +142,140 @@ void Waltr::printQueueLog() {
         std::cout<<std::endl;
 }
 
-void Waltr::drawQueue(std::queue<int> myQueue) {
-    int screenX = 320;
-    int screenY = 240;
-    int bufferX = 10;
-    int bufferY = 30;
-
-    int size = myQueue.size();
-    
-    std::queue<int> set = myQueue;
-
-    int barHeight = (screenY/size) - 10;
-    
-    bool ifprinted = false;
-
-    Tigr* screen = tigrWindow(screenX, screenY, (char*)"Your Queue!", 0);
-    while (!tigrClosed(screen) && !tigrKeyDown(screen, TK_ESCAPE)) {
-        
-        if (!ifprinted) {
-            tigrClear(screen, tigrRGB(0,0,0));
-            //tigrPrint(screen, tfont, 160, 15, tigrRGB(255,0,0), "Index: ");
-            tigrPrint(screen, tfont, 200, 150, tigrRGB(38, 252, 66), "Front of Queue: %d", myQueue.front());
-
-            bool test = false;
-
-            for(int i=0; i<size; i++) {
-                tigrRect(screen, bufferX, bufferY, 150, barHeight, tigrRGB(0,0,0));
-                tigrFillRect(screen, bufferX, bufferY, 150, barHeight, tigrRGB(38, 252, 66));
-                tigrPrint(screen, tfont, ((bufferX+75)), (bufferY-barHeight/50), tigrRGB(102,178,200), "%d", set.front());
-                //tigrPrint(screen, tfont, (bufferX+160), (bufferY-barHeight/50), tigrRGB(255,0,0), "%d", i);
-                if(set.size() == 1) {
-                    tigrPrint(screen, tfont, 200, 200, tigrRGB(38, 252, 66), "End of Queue: %d", set.front());
-                }
-                set.pop();
-                bufferY += barHeight;
-                for(int j = -1; j < i; j++) {
-                    for(int g = -1; g < j; g++) {
-                        tigrUpdate(screen);
-                    }
-                }
-            }
-            ifprinted = true;
-        }
-        tigrUpdate(screen);
-    }
-    tigrFree(screen); 
-}
-
-void Waltr::drawVector(std::vector<int> myVector) {
+void Waltr::drawVector() {
     bufferX = 90;
     bufferY = 210;
 
     //get the amount of elements in the vector
-    size = myVector.size();
+    size = vector_log[vector_index].size();
     coords.resize(size);
 
     //scale the vector so it fits on screen
     boxSize = 12;
 
     tigrPrint(current_screen, tfont, 30, 30, tigrRGB(50,50,200), "Current instance: %d / %d", vector_index, vector_log.size()-1);
-    for(int i=0; i < size; i++) {
-        tigrRect(current_screen, bufferX, bufferY, boxSize, boxSize, tigrRGB(0,0,0));
-        tigrFillRect(current_screen, bufferX, bufferY, boxSize, boxSize, tigrRGB(0, 50, 0));
-        tigrPrint(current_screen, tfont, bufferX + 3, bufferY - 15, tigrRGB(60, 0, 0), "%d", i);
-        coords[item_index] = bufferX;
-        bufferX = bufferX + boxSize + 2;
-    }
-    tigrRect(current_screen, screenX/2, screenY/2 - 30, screenX, boxSize + 10, tigrRGB(0,0,0));
-    tigrFillRect(current_screen, screenX/2, screenY/2 - 30, screenX, boxSize + 10, tigrRGB(0,0,0));
-    tigrPrint(current_screen, tfont, screenX/2 + 30, screenY/2 - 30, tigrRGB(255,0,0), "Index: %d", item_index);
-    
-    tigrRect(current_screen, screenX/2, screenY/2 - 10, screenX, boxSize + 10, tigrRGB(0,0,0));
-    tigrFillRect(current_screen, screenX/2, screenY/2 - 10, screenX, boxSize + 10, tigrRGB(0,0,0));
-    tigrPrint(current_screen, tfont, screenX/2 + 30, screenY/2 - 10, tigrRGB(255,0,0), "Type: %s", typeid(item_index).name());
-    
-    tigrRect(current_screen, screenX/2 - 40, screenY/2 - 40, 50, 50, tigrRGB(0,0,0));
-    tigrFillRect(current_screen, screenX/2 - 40, screenY/2 - 40, 50, 50, tigrRGB(38, 252, 66));
-    tigrPrint(current_screen, tfont, screenX/2 - 30, screenY/2 - 30, tigrRGB(255,0,0), "%d", vector_log[vector_index][item_index]);
+    if (vector_log[vector_index].empty()) {
+        tigrPrint(current_screen, tfont, 30, screenY/2, tigrRGB(50,50,200), "Vector is empty!", queue_index, queue_log.size()-1);
+    } else {    
+        for(int i=0; i < size; i++) {
+            tigrRect(current_screen, bufferX, bufferY, boxSize, boxSize, tigrRGB(0,0,0));
+            tigrFillRect(current_screen, bufferX, bufferY, boxSize, boxSize, tigrRGB(0, 50, 0));
+            tigrPrint(current_screen, tfont, bufferX + 3, bufferY - 15, tigrRGB(60, 0, 0), "%d", i);
+            coords[item_index] = bufferX;
+            bufferX = bufferX + boxSize + 2;
+        }
+        tigrRect(current_screen, screenX/2, screenY/2 - 30, screenX, boxSize + 10, tigrRGB(0,0,0));
+        tigrFillRect(current_screen, screenX/2, screenY/2 - 30, screenX, boxSize + 10, tigrRGB(0,0,0));
+        tigrPrint(current_screen, tfont, screenX/2 + 30, screenY/2 - 30, tigrRGB(255,0,0), "Index: %d", item_index);
+        
+        tigrRect(current_screen, screenX/2, screenY/2 - 10, screenX, boxSize + 10, tigrRGB(0,0,0));
+        tigrFillRect(current_screen, screenX/2, screenY/2 - 10, screenX, boxSize + 10, tigrRGB(0,0,0));
+        tigrPrint(current_screen, tfont, screenX/2 + 30, screenY/2 - 10, tigrRGB(255,0,0), "Type: %s", typeid(item_index).name());
+        
+        tigrRect(current_screen, screenX/2 - 40, screenY/2 - 40, 50, 50, tigrRGB(0,0,0));
+        tigrFillRect(current_screen, screenX/2 - 40, screenY/2 - 40, 50, 50, tigrRGB(38, 252, 66));
+        tigrPrint(current_screen, tfont, screenX/2 - 30, screenY/2 - 30, tigrRGB(255,0,0), "%d", vector_log[vector_index][item_index]);
 
-    tigrFillRect(current_screen, coords[item_index]-2, bufferY-2, boxSize+4, boxSize+4, tigrRGB(0, 200, 0));
-    tigrPrint(current_screen, tfont, coords[item_index]+3, bufferY - 15, tigrRGB(255, 0, 0), "%d", item_index);
+        tigrFillRect(current_screen, coords[item_index]-2, bufferY-2, boxSize+4, boxSize+4, tigrRGB(0, 200, 0));
+        tigrPrint(current_screen, tfont, coords[item_index]+3, bufferY - 15, tigrRGB(255, 0, 0), "%d", item_index);
+    }
 }
 
-void Waltr::drawVectorMouse(std::vector<int> myVector) {
+void Waltr::drawVectorMouse() {
     bufferX = 90;
     bufferY = 210; // create dimensions for a screen in tigr and include buffer for the edges
 
-    size = myVector.size(); // get the amount of elements in the vector
+    size = vector_log[vector_index].size(); // get the amount of elements in the vector
     coords.resize(size);
     boxSize = 12;
 
     tigrPrint(current_screen, tfont, 30, 30, tigrRGB(50,50,200), "Current instance: %d / %d", vector_index, vector_log.size()-1);
+    if (vector_log[vector_index].empty()) {
+        tigrPrint(current_screen, tfont, 30, screenY/2, tigrRGB(50,50,200), "Vector is empty!", queue_index, queue_log.size()-1);
+    } else {
+        for(int i=0; i < size; i++) {
+            tigrRect(current_screen, bufferX, bufferY, boxSize, boxSize, tigrRGB(0,0,0));
+            tigrFillRect(current_screen, bufferX, bufferY, boxSize, boxSize, tigrRGB(38, 252, 66)); // prints boxes
+            tigrPrint(current_screen, tfont, bufferX + 3, bufferY - 15, tigrRGB(255, 0, 0), "%d", i); // prints indices
+            coords[i] = bufferX;
+            bufferX = bufferX + boxSize + 2;
+        }
 
-    for(int i=0; i < size; i++) {
-        tigrRect(current_screen, bufferX, bufferY, boxSize, boxSize, tigrRGB(0,0,0));
-        tigrFillRect(current_screen, bufferX, bufferY, boxSize, boxSize, tigrRGB(38, 252, 66)); // prints boxes
-        tigrPrint(current_screen, tfont, bufferX + 3, bufferY - 15, tigrRGB(255, 0, 0), "%d", i); // prints indices
-        coords[i] = bufferX;
-        bufferX = bufferX + boxSize + 2;
+        // note: all prints have a black box behind them so that when they print on top of each other, it doesn't look bad
+
+        tigrRect(current_screen, screenX/2, screenY/2 - 40, screenX, boxSize + 10, tigrRGB(0,0,0));
+        tigrFillRect(current_screen, screenX/2, screenY/2 - 40, screenX, boxSize + 10, tigrRGB(0,0,0));
+        tigrPrint(current_screen, tfont, screenX/2 + 10, screenY/2 - 40, tigrRGB(255,0,0), "Index: %d", item_index); // prints index
+        
+        tigrRect(current_screen, screenX/2, screenY/2, screenX, boxSize + 10, tigrRGB(0,0,0));
+        tigrFillRect(current_screen, screenX/2, screenY/2, screenX, boxSize + 10, tigrRGB(0,0,0));
+        tigrPrint(current_screen, tfont, screenX/2 + 10, screenY/2 - 20, tigrRGB(255,0,0), "Type: %s", typeid(item_index).name()); // prints data type
+        
+        tigrRect(current_screen, screenX/2 - 50, screenY/2 - 40, 50, 50, tigrRGB(0,0,0));
+        tigrFillRect(current_screen, screenX/2 - 50, screenY/2 - 40, 50, 50, tigrRGB(38, 252, 66));
+        tigrPrint(current_screen, tfont, screenX/2 - 40, screenY/2 - 30, tigrRGB(255,0,0), "%d", vector_log[vector_index][item_index]); // prints green box with data inside
+        
+        tigrRect(current_screen, 0, screenY/2 + 105, screenX, boxSize + 10, tigrRGB(0,0,0));
+        tigrFillRect(current_screen, 0, screenY/2 + 105, screenX, boxSize + 10, tigrRGB(0,0,0));
+        tigrPrint(current_screen, tfont, coords[item_index] + 3, screenY/2 + 105, tigrRGB(255,0,0), "^"); // prints an arrow corresponding the box the user is on
+        
+        tigrFillRect(current_screen, coords[item_index], bufferY, boxSize, boxSize, tigrRGB(0,0,255)); // highlights box blue
     }
+}
 
-    // note: all prints have a black box behind them so that when they print on top of each other, it doesn't look bad
+void Waltr::drawQueue() {
+    std::queue<int> queue = queue_log[queue_index];
+    bufferX = 15;
+    bufferY = 30;
 
-    tigrRect(current_screen, screenX/2, screenY/2 - 40, screenX, boxSize + 10, tigrRGB(0,0,0));
-    tigrFillRect(current_screen, screenX/2, screenY/2 - 40, screenX, boxSize + 10, tigrRGB(0,0,0));
-    tigrPrint(current_screen, tfont, screenX/2 + 10, screenY/2 - 40, tigrRGB(255,0,0), "Index: %d", item_index); // prints index
-    
-    tigrRect(current_screen, screenX/2, screenY/2, screenX, boxSize + 10, tigrRGB(0,0,0));
-    tigrFillRect(current_screen, screenX/2, screenY/2, screenX, boxSize + 10, tigrRGB(0,0,0));
-    tigrPrint(current_screen, tfont, screenX/2 + 10, screenY/2 - 20, tigrRGB(255,0,0), "Type: %s", typeid(item_index).name()); // prints data type
-    
-    tigrRect(current_screen, screenX/2 - 50, screenY/2 - 40, 50, 50, tigrRGB(0,0,0));
-    tigrFillRect(current_screen, screenX/2 - 50, screenY/2 - 40, 50, 50, tigrRGB(38, 252, 66));
-    tigrPrint(current_screen, tfont, screenX/2 - 40, screenY/2 - 30, tigrRGB(255,0,0), "%d", vector_log[vector_index][item_index]); // prints green box with data inside
-    
-    tigrRect(current_screen, 0, screenY/2 + 105, screenX, boxSize + 10, tigrRGB(0,0,0));
-    tigrFillRect(current_screen, 0, screenY/2 + 105, screenX, boxSize + 10, tigrRGB(0,0,0));
-    tigrPrint(current_screen, tfont, coords[item_index] + 3, screenY/2 + 105, tigrRGB(255,0,0), "^"); // prints an arrow corresponding the box the user is on
-    
-    tigrFillRect(current_screen, coords[item_index], bufferY, boxSize, boxSize, tigrRGB(0,0,255)); // highlights box blue
-}   
+    size = queue.size();
+
+    coords.resize(size);
+
+    boxSize = 12;
+    tigrPrint(current_screen, tfont, 30, screenY - 30, tigrRGB(50,50,200), "Current instance: %d / %d", queue_index, queue_log.size()-1);
+    if(queue.empty()) {
+        tigrPrint(current_screen, tfont, 30, screenY/2, tigrRGB(50,50,200), "Queue is empty!", queue_index, queue_log.size()-1);
+    } else {
+        for (int i = 0; i < size; i++) {
+            tigrRect(current_screen, bufferX, bufferY, 50, boxSize, tigrRGB(0,0,0));
+            tigrFillRect(current_screen, bufferX, bufferY, 50, boxSize, tigrRGB(38, 252, 66)); // prints boxes
+            
+            queue.pop(); // pops through set to print each box
+            
+            coords[i] = bufferY;
+            bufferY += boxSize; // ensures that coordinates line up with box dimensions
+            
+            tigrPrint(current_screen, tfont, bufferX + 55, coords[i] + 2, tigrRGB(255, 0 , 0), "%d", i); // prints indices
+        }
+
+        queue = queue_log[queue_index];
+
+        tigrRect(current_screen, screenX/2, screenY/2 - 40, screenX, boxSize, tigrRGB(0,0,0));
+        tigrFillRect(current_screen, screenX/2, screenY/2 - 40, screenX, boxSize, tigrRGB(0,0,0));
+        
+        //we dont want to/cant pop a 0 size queue
+        if (item_index != 0) {
+            while(queue.size() > item_index) {
+                queue.pop();
+            }
+        }
+
+        tigrRect(current_screen, screenX/2 - 50, screenY/2 - 40, 100, 50, tigrRGB(0,0,0));
+        tigrFillRect(current_screen, screenX/2 - 50, screenY/2 - 40, 100, 50, tigrRGB(38, 252, 66));
+        tigrPrint(current_screen, tfont, screenX/2 - 40, screenY/2 - 30, tigrRGB(255,0,0), "Value: %d", queue.front()); // prints green box with data inside
+        tigrPrint(current_screen, tfont, screenX/2 - 40, screenY/2 - 20, tigrRGB(255,0,0), "Type: %s", typeid(queue.front()).name()); // prints data type
+        
+        //Queues (technically) dont have indices... but this can slide for now because it looks like we have more data 
+        tigrPrint(current_screen, tfont, screenX/2 - 40, screenY/2 - 10, tigrRGB(255,0,0), "Index: %d", item_index); // prints index
+
+        tigrRect(current_screen, screenX/2 - 160, 0, boxSize, screenY, tigrRGB(0,0,0));
+        tigrFillRect(current_screen, screenX/2 - 160, 0, boxSize, screenY, tigrRGB(0,0,0));
+        tigrPrint(current_screen, tfont, screenX/2 - 153, coords[item_index] + 2, tigrRGB(255,0,0), ">"); // prints an arrow corresponding to the box the user is on
+
+        tigrFillRect(current_screen, bufferX, coords[item_index], 50, boxSize, tigrRGB(0,0,255)); //highlights current index
+    }
+}
 
 void Waltr::openVectorWindow() {
     //Order of vectors displayed may need to be flipped
@@ -276,30 +290,30 @@ void Waltr::openVectorWindow() {
     item_index = 0;
 
     //prints initial vector and instance number
-    drawVector(vector_log[0]);
+    drawVector();
     tigrUpdate(current_screen);
     while (!tigrClosed(current_screen) && !tigrKeyDown(current_screen, TK_ESCAPE)) {
         if (tigrKeyDown(current_screen, TK_UP)  && vector_index < vector_log.size()-1) {
             vector_index++;
             tigrClear(current_screen,tigrRGB(0,0,0));
-            drawVector(vector_log[vector_index]);
+            drawVector();
         }
         if (tigrKeyDown(current_screen, TK_DOWN) && vector_index > 0) {
             vector_index--;
             tigrClear(current_screen,tigrRGB(0,0,0));
-            drawVector(vector_log[vector_index]);
+            drawVector();
         }
 
         if (tigrKeyDown(current_screen, TK_RIGHT) && item_index < vector_log[vector_index].size()-1) {
             item_index++;
             tigrClear(current_screen,tigrRGB(0,0,0));
-            drawVector(vector_log[vector_index]);
+            drawVector();
         }
 
         if (tigrKeyDown(current_screen, TK_LEFT) && item_index > 0) {
             item_index--;
             tigrClear(current_screen,tigrRGB(0,0,0));
-            drawVector(vector_log[vector_index]);
+            drawVector();
         }
         tigrUpdate(current_screen);
     }
@@ -319,18 +333,18 @@ void Waltr::openVectorWindowMouse() {
     item_index = 0;
 
     //prints initial vector and instance number
-    drawVectorMouse(vector_log[0]);
+    drawVectorMouse();
     tigrUpdate(current_screen);
     while (!tigrClosed(current_screen) && !tigrKeyDown(current_screen, TK_ESCAPE)) {
         if (tigrKeyDown(current_screen, TK_UP)  && vector_index < vector_log.size()-1) {
             vector_index++;
             tigrClear(current_screen,tigrRGB(0,0,0));
-            drawVectorMouse(vector_log[vector_index]);
+            drawVectorMouse();
         }
         if (tigrKeyDown(current_screen, TK_DOWN) && vector_index > 0) {
             vector_index--;
             tigrClear(current_screen,tigrRGB(0,0,0));
-            drawVectorMouse(vector_log[vector_index]);
+            drawVectorMouse();
         }
 
         tigrMouse(current_screen, &mouseX, &mouseY, &buttons); // get mouse coordinates
@@ -340,11 +354,57 @@ void Waltr::openVectorWindowMouse() {
                 if(buttons & 1) { // if mouse button clicked
                     item_index = i;
                     tigrClear(current_screen,tigrRGB(0,0,0));
-                    drawVectorMouse(vector_log[vector_index]);
+                    drawVectorMouse();
                 }
             } else {
                 if (i != item_index) {
                     tigrFillRect(current_screen, coords[i], bufferY, boxSize, boxSize, tigrRGB(38, 252, 66)); // changes box back to green
+                }
+            }
+        }
+        tigrUpdate(current_screen);
+    }
+    tigrFree(current_screen);
+}
+void Waltr::openQueueWindow() {
+    //Order of vectors displayed may need to be flipped
+    //tigrClear(screen, tigrRGB(0,0,0));
+    
+    current_screen = tigrWindow(screenX, screenY, (char*)"Your Queue!", 0);
+    
+    //Used to iterate through current vector
+    item_index = 0;
+
+    //Used to iterate through queue instances
+    queue_index = 0;
+
+    //prints initial vector and instance number
+    drawQueue();
+    tigrUpdate(current_screen);
+    while (!tigrClosed(current_screen) && !tigrKeyDown(current_screen, TK_ESCAPE)) {
+        if (tigrKeyDown(current_screen, TK_UP)  && queue_index < queue_log.size()-1) {
+            queue_index++;
+            tigrClear(current_screen,tigrRGB(0,0,0));
+            drawQueue();
+        }
+        if (tigrKeyDown(current_screen, TK_DOWN) && queue_index > 0) {
+            queue_index--;
+            tigrClear(current_screen,tigrRGB(0,0,0));
+            drawQueue();
+        }
+
+        tigrMouse(current_screen, &mouseX, &mouseY, &buttons); // get mouse coordinates
+        for (int i = 0; i < size; i++) { // test if mouse coordinates are within array boxes
+            if (mouseX > bufferX && mouseX < (bufferX + 50) && mouseY > coords[i] && mouseY < (coords[i]+boxSize)) {
+                tigrFillRect(current_screen, bufferX, coords[i], 50, boxSize, tigrRGB(0,0,255)); // highlights box blue
+                if(buttons & 1) { // if mouse button clicked
+                    item_index = i;
+                    tigrClear(current_screen,tigrRGB(0,0,0));
+                    drawQueue();
+                }
+            } else {
+                if (i != item_index) {
+                    tigrFillRect(current_screen, bufferX, coords[i], 50, boxSize, tigrRGB(38, 252, 66)); // changes box back to green
                 }
             }
         }
@@ -362,6 +422,6 @@ Waltr::~Waltr() {
     } else if (!stack_log.empty()) {
         //openStackWindow();
     } else if (!queue_log.empty()) {
-        //openQueueWindow();
+        openQueueWindow();
     }
 }
