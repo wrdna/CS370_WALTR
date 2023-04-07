@@ -21,12 +21,12 @@ class Waltr {
 		Tigr* current_screen;
 		int ifprinted = false;
 		int buttons;
-		int valuesLength;
+		int size;
 		int mouseX = 0;
 		int mouseY = 0;
 		int screenX = 320;
     	int screenY = 240;
-		int boxWidth;
+		int boxSize;
 		int barHeight;
 		int bufferX;
 		int bufferY;
@@ -85,12 +85,15 @@ class Waltr {
 		
 		//prints inputted vector to screen
 		void drawVector(std::vector<int> myVector);
-
+		void drawVectorMouse(std::vector<int> myVector);
+		
 		void drawQueue(std::queue<int> myQueue);
 
 		void drawStack(std::stack<int> myStack);
 
 		void openVectorWindow();
+		void openVectorWindowMouse();
+
 
 		//DESTRUCTOR!!!
 		~Waltr();
