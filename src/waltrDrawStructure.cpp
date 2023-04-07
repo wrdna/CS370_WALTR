@@ -277,6 +277,59 @@ void Waltr::drawQueue() {
     }
 }
 
+void Waltr::drawStack() {
+    std::stack<int> stack = stack_log[stack_index];
+    bufferX = 15;
+    bufferY = 30;
+
+    size = stack.size();
+
+    coords.resize(size);
+
+    boxSize = 12;
+    tigrPrint(current_screen, tfont, 30, screenY - 30, tigrRGB(50,50,200), "Current instance: %d / %d", stack_index, stack_log.size()-1);
+    if(stack.empty()) {
+        tigrPrint(current_screen, tfont, 30, screenY/2, tigrRGB(50,50,200), "Stack is empty!", stack_index, stack_log.size()-1);
+    } else {
+        for (int i = 0; i < size; i++) {
+            tigrRect(current_screen, bufferX, bufferY, 50, boxSize, tigrRGB(0,0,0));
+            tigrFillRect(current_screen, bufferX, bufferY, 50, boxSize, tigrRGB(38, 252, 66)); // prints boxes
+            
+            stack.pop(); // pops through set to print each box
+            
+            coords[i] = bufferY;
+            bufferY += boxSize; // ensures that coordinates line up with box dimensions
+            
+            tigrPrint(current_screen, tfont, bufferX + 55, coords[i] + 2, tigrRGB(255, 0 , 0), "%d", i); // prints indices
+        }
+        stack = stack_log[stack_index];
+
+        tigrRect(current_screen, screenX/2, screenY/2 - 40, screenX, boxSize, tigrRGB(0,0,0));
+        tigrFillRect(current_screen, screenX/2, screenY/2 - 40, screenX, boxSize, tigrRGB(0,0,0));
+        
+        //we dont want to/cant pop a 0 size stack
+        if (item_index != 0) {
+            while(stack.size() > item_index) {
+                stack.pop();
+            }
+        }
+
+        tigrRect(current_screen, screenX/2 - 50, screenY/2 - 40, 100, 50, tigrRGB(0,0,0));
+        tigrFillRect(current_screen, screenX/2 - 50, screenY/2 - 40, 100, 50, tigrRGB(38, 252, 66));
+        tigrPrint(current_screen, tfont, screenX/2 - 40, screenY/2 - 30, tigrRGB(255,0,0), "Value: %d", stack.top()); // prints green box with data inside
+        tigrPrint(current_screen, tfont, screenX/2 - 40, screenY/2 - 20, tigrRGB(255,0,0), "Type: %s", typeid(stack.top()).name()); // prints data type
+        
+        //Stacks (technically) dont have indices... but this can slide for now because it looks like we have more data 
+        tigrPrint(current_screen, tfont, screenX/2 - 40, screenY/2 - 10, tigrRGB(255,0,0), "Index: %d", item_index); // prints index
+
+        tigrRect(current_screen, screenX/2 - 160, 0, boxSize, screenY, tigrRGB(0,0,0));
+        tigrFillRect(current_screen, screenX/2 - 160, 0, boxSize, screenY, tigrRGB(0,0,0));
+        tigrPrint(current_screen, tfont, screenX/2 - 153, coords[item_index] + 2, tigrRGB(255,0,0), ">"); // prints an arrow corresponding to the box the user is on
+
+        tigrFillRect(current_screen, bufferX, coords[item_index], 50, boxSize, tigrRGB(0,0,255)); //highlights current index
+    }
+}
+
 void Waltr::openVectorWindow() {
     //Order of vectors displayed may need to be flipped
     //tigrClear(screen, tigrRGB(0,0,0));
@@ -413,6 +466,53 @@ void Waltr::openQueueWindow() {
     tigrFree(current_screen);
 }
 
+void Waltr::openStackWindow() {
+    //Order of vectors displayed may need to be flipped
+    //tigrClear(screen, tigrRGB(0,0,0));
+    
+    current_screen = tigrWindow(screenX, screenY, (char*)"Your Stack!", 0);
+    
+    //Used to iterate through current vector
+    item_index = 0;
+
+    //Used to iterate through stack instances
+    stack_index = 0;
+
+    //prints initial vector and instance number
+    drawStack();
+    tigrUpdate(current_screen);
+    while (!tigrClosed(current_screen) && !tigrKeyDown(current_screen, TK_ESCAPE)) {
+        if (tigrKeyDown(current_screen, TK_UP)  && stack_index < stack_log.size()-1) {
+            stack_index++;
+            tigrClear(current_screen,tigrRGB(0,0,0));
+            drawStack();
+        }
+        if (tigrKeyDown(current_screen, TK_DOWN) && stack_index > 0) {
+            stack_index--;
+            tigrClear(current_screen,tigrRGB(0,0,0));
+            drawStack();
+        }
+
+        tigrMouse(current_screen, &mouseX, &mouseY, &buttons); // get mouse coordinates
+        for (int i = 0; i < size; i++) { // test if mouse coordinates are within array boxes
+            if (mouseX > bufferX && mouseX < (bufferX + 50) && mouseY > coords[i] && mouseY < (coords[i]+boxSize)) {
+                tigrFillRect(current_screen, bufferX, coords[i], 50, boxSize, tigrRGB(0,0,255)); // highlights box blue
+                if(buttons & 1) { // if mouse button clicked
+                    item_index = i;
+                    tigrClear(current_screen,tigrRGB(0,0,0));
+                    drawStack();
+                }
+            } else {
+                if (i != item_index) {
+                    tigrFillRect(current_screen, bufferX, coords[i], 50, boxSize, tigrRGB(38, 252, 66)); // changes box back to green
+                }
+            }
+        }
+        tigrUpdate(current_screen);
+    }
+    tigrFree(current_screen);
+}
+
 
 
 Waltr::~Waltr() {
@@ -420,7 +520,7 @@ Waltr::~Waltr() {
         //openVectorWindow(); 
         openVectorWindowMouse();   
     } else if (!stack_log.empty()) {
-        //openStackWindow();
+        openStackWindow();
     } else if (!queue_log.empty()) {
         openQueueWindow();
     }

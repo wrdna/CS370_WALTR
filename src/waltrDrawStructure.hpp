@@ -92,13 +92,15 @@ class Waltr {
 		
 		void drawQueue();
 		
-		void drawStack(std::stack<int> myStack);
+		void drawStack();
 
 		void openVectorWindow();
 		
 		void openVectorWindowMouse();
 		
 		void openQueueWindow();
+
+		void openStackWindow();
 
 
 		//DESTRUCTOR!!!
