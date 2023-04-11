@@ -96,8 +96,6 @@ class Waltr {
 
 		void openVectorWindow();
 		
-		void openVectorWindowMouse();
-		
 		void openQueueWindow();
 
 		void openStackWindow();
