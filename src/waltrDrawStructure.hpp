@@ -15,9 +15,9 @@
 class Waltr {
 	private:
 		//There is a better way to do this (Likely templates)
-		std::vector<std::vector<int>> vector_log;
-		std::vector<std::stack<int>> stack_log;
-		std::vector<std::queue<int>> queue_log;
+		std::vector<std::vector<int> > vector_log;
+		std::vector<std::stack<int> > stack_log;
+		std::vector<std::queue<int> > queue_log;
 		Tigr* current_screen;
 		int ifprinted = false;
 		int buttons;
