@@ -333,7 +333,7 @@ void Waltr::openVectorWindow() {
         tigrMouse(current_screen, &mouseX, &mouseY, &buttons); // get mouse coordinates
         for (int i = 0; i < size; i++) { // test if mouse coordinates are within array boxes
             if(mouseX > coords[i] && mouseX < (coords[i]+ boxSize) && mouseY > bufferY && mouseY < (bufferY+boxSize)) {
-                tigrFillRect(current_screen, coords[i], bufferY, boxSize, boxSize, tigrRGB(0,0,255)); // highlights box blue
+                //tigrFillRect(current_screen, coords[i], bufferY, boxSize, boxSize, tigrRGB(0,0,255)); // highlights box blue
                 if(buttons & 1) { // if mouse button clicked
                     item_index = i;
                     tigrClear(current_screen,tigrRGB(0,0,0));
