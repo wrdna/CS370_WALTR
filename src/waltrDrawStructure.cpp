@@ -465,6 +465,9 @@ void Waltr::openStackWindow() {
 }
 
 
+//Adding sorting Functions
+
+
 
 Waltr::~Waltr() {
     if (!vector_log.empty()) {
