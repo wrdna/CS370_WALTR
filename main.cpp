@@ -4,32 +4,20 @@
 #include "waltr.hpp"
 
 int main(void) {
-	std::array<int,5> arr_stl={0,1,2,3,4};
-	int arr_c[5] = {0223,133,233,311,42};
-	std::vector<int> vec = {5,6,3,1,1,3,3};
-	std::queue<int> queue;
-	queue.push(10);
-	queue.push(20);
-	queue.push(30);
-	queue.push(10);
-	queue.push(20);
-	queue.push(30);
-	queue.push(10);
-	queue.push(20);
-	queue.push(30);
-
-	 std::stack<int> stack;
-	stack.push(10);
-	stack.push(20);
-	stack.push(30);
-	stack.push(10);
-	stack.push(20);
-	
-	
-	
-	Waltr waltrV = Waltr(vec);
-	Waltr waltrS = Waltr(stack);
-	Waltr waltrQ = Waltr(queue);
+	// std::vector<int> vec = {0,0,0,0,0};
+	// Waltr waltr = Waltr(vec);
+	// for(int i =0;i<5;i++) {
+	// 	vec[i] = i;
+	// }
+	// waltr.logVector(vec);
 	// drawStructure(arr_c,5);
 	// drawStructure(vec);
+
+    std::stack<int> stack;
+    std::queue<int> queue;
+    Waltr waltr = Waltr(stack);
+    for(int i =0;i<5;i++) {
+        stack.push(i);
+        waltr.logStack(stack);
+    }
 }

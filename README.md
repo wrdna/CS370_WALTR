@@ -43,6 +43,31 @@ int main(void) {
 	return 0;
 }
 ```
+To save specific instances of the data structure, you can use the applicable log function
+| Function |
+|-------------|
+| logVector(*vector*); |
+| logQueue(*queue*); |
+| logStack(*stack*); |
+
+**Waltr converts all C-Style and STL arrays to vectors. To log one of these you can use the logVector function.**
+
+Ex:
+```C++
+int main(void) {
+	std::vector<int> vec = {0,0,0,0,0};
+	Waltr waltr = Waltr(vec);
+	for (int i=0; i<5; i++) {
+		vec[i] = i;
+	}
+	
+	waltr.logVector(vec);
+	
+	return 0;
+}
+```
+
+
 And to compile:
 
 ```
@@ -50,6 +75,13 @@ Windows: g++ main.cpp waltr.cpp -lopengl32 -lgdi32
 Mac: g++ main.cpp waltr.cpp -framework Cocoa -framework openGL
 Linux: g++ main.cpp waltr.cpp -lGLU -lGL -lX11
 ```
+## Navigation
+
+- The left/right arrow keys can be used to move between indices on the various data structures.
+
+- The mouse can also be used to click on individual indicies.
+
+- The up/down arrow keys are used to switch between saved logs of the data structure.
 
 ## Restrictions
 
@@ -58,3 +90,7 @@ Linux: g++ main.cpp waltr.cpp -lGLU -lGL -lX11
 - WALTR only likes single digit integers at the moment, he's a picky eater but we're working on it!
 
 - WALTR can only handle data structures with a size up to 10 currently, larger than 10 causes problems! (Also a work in progress)
+
+
+
+If it works it works - WALTR 2023
