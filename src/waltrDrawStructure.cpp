@@ -179,6 +179,9 @@ void Waltr::drawVector() {
     }   
 }
 
+/*
+Function to draw the queue to a window
+*/
 void Waltr::drawQueue() {
      std::queue<int> queue = queue_log[queue_index];
     bufferX = 15;
@@ -239,6 +242,9 @@ void Waltr::drawQueue() {
     }
 }
 
+/*
+Function to draw the stack to a window
+*/
 void Waltr::drawStack() {
     std::stack<int> stack = stack_log[stack_index];
     bufferX = 15;
