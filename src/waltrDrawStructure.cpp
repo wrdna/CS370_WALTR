@@ -179,11 +179,8 @@ void Waltr::drawVector() {
     }   
 }
 
-/*
-Function to draw the queue to a window
-*/
 void Waltr::drawQueue() {
-     std::queue<int> queue = queue_log[queue_index];
+    std::queue<int> queue = queue_log[queue_index];
     bufferX = 15;
     bufferY = 30;
 
@@ -242,9 +239,6 @@ void Waltr::drawQueue() {
     }
 }
 
-/*
-Function to draw the stack to a window
-*/
 void Waltr::drawStack() {
     std::stack<int> stack = stack_log[stack_index];
     bufferX = 15;
@@ -288,6 +282,7 @@ void Waltr::drawStack() {
         tigrPrint(current_screen, tfont, screenX/2 - 153, coords[item_index] + 2, tigrRGB(255,0,0), ">"); // prints arrow corresponding to box user is currently on
         
         tigrFillRect(current_screen, bufferX, coords[item_index], 50, boxSize, tigrRGB(0,0,255)); //highlights current index
+
     }
 }
 
@@ -333,7 +328,7 @@ void Waltr::openVectorWindow() {
         tigrMouse(current_screen, &mouseX, &mouseY, &buttons); // get mouse coordinates
         for (int i = 0; i < size; i++) { // test if mouse coordinates are within array boxes
             if(mouseX > coords[i] && mouseX < (coords[i]+ boxSize) && mouseY > bufferY && mouseY < (bufferY+boxSize)) {
-                //tigrFillRect(current_screen, coords[i], bufferY, boxSize, boxSize, tigrRGB(0,0,255)); // highlights box blue
+                tigrFillRect(current_screen, coords[i], bufferY, boxSize, boxSize, tigrRGB(0,0,255)); // highlights box blue
                 if(buttons & 1) { // if mouse button clicked
                     item_index = i;
                     tigrClear(current_screen,tigrRGB(0,0,0));
