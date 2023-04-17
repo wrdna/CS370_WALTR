@@ -157,11 +157,17 @@ void Waltr::drawVector() {
     if (vector_log[vector_index].empty()) {
         tigrPrint(current_screen, tfont, 30, screenY/2, tigrRGB(50,50,200), "Vector is empty!");
     } else {
-        for(int i=0; i < size; i++) {
+                
+        if (item_index / 10 > page_index) {
+            page_index++;
+        }
+
+        //for(int i=0+page_index*10; i < (size < 10 ? size + page_index*10: 10 + page_index*10) ; i++) {
+       for(int i=0+page_index*10; i < (size < 10 ? size%10: 10 + page_index*10) ; i++) {
             tigrRect(current_screen, bufferX, bufferY, boxSize, boxSize, tigrRGB(0,0,0));
             tigrFillRect(current_screen, bufferX, bufferY, boxSize, boxSize, tigrRGB(0, 50, 0));
             tigrPrint(current_screen, tfont, bufferX + 3, bufferY - 15, tigrRGB(60, 0, 0), "%d", i);
-            coords[i] = bufferX;
+            coords[i-page_index*10] = bufferX;
             bufferX = bufferX + boxSize + 2;
         }
         //current index cant be larger than size of vector
@@ -253,6 +259,7 @@ void Waltr::drawStack() {
     if(stack.empty()) {
         tigrPrint(current_screen, tfont, 30, screenY/2, tigrRGB(50,50,200), "Stack is empty!");
     } else {
+
         for (int i = 0; i < size; i++) {
             tigrRect(current_screen, bufferX, bufferY, 50, boxSize, tigrRGB(0,0,0));
             tigrFillRect(current_screen, bufferX, bufferY, 50, boxSize, tigrRGB(38, 252, 66)); // prints boxes
@@ -298,6 +305,8 @@ void Waltr::openVectorWindow() {
     //Used to iterate through current vector
     item_index = 0;
 
+    page_index  =0;
+
     //prints initial vector and instance number
     drawVector();
     tigrUpdate(current_screen);
@@ -321,6 +330,20 @@ void Waltr::openVectorWindow() {
 
         if (tigrKeyDown(current_screen, TK_LEFT) && item_index > 0) {
             item_index--;
+            tigrClear(current_screen,tigrRGB(0,0,0));
+            drawVector();
+        }
+        
+        if (tigrKeyDown(current_screen, 'Z') && item_index > 0) {
+            page_index++;
+            item_index = page_index*10;
+            tigrClear(current_screen,tigrRGB(0,0,0));
+            drawVector();
+        }
+
+        if (tigrKeyDown(current_screen, 'C') && item_index > 0) {
+            page_index++;
+            item_index = page_index*10;
             tigrClear(current_screen,tigrRGB(0,0,0));
             drawVector();
         }
