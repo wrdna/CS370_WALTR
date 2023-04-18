@@ -2,6 +2,7 @@
 #include <vector>
 #include <array>
 #include <queue>
+#include <algorithm>
 
 #include <iostream>
 #include "tigr.h"
@@ -345,6 +346,38 @@ void Waltr::openVectorWindow() {
                 }
             }
         }
+
+        //sort box dimensions
+        int sortboxWidth = 45;
+        int sortboxHeight = 20;
+        int sortboxX = 260;
+
+        //if on last instance
+        if(vector_index == (vector_log.size()-1)){
+            tigrPrint(current_screen, tfont, 265, 150, tigrRGB(255,0,0), "Sort: " );
+            tigrFillRect(current_screen, sortboxX, 170, 45, sortboxHeight, tigrRGB(38,252,66));
+            tigrPrint(current_screen, tfont, (260+5), (170+4), tigrRGB(255,0,0), "up");
+            tigrFillRect(current_screen, sortboxX, 195, 45, sortboxHeight, tigrRGB(38,252,66));
+            tigrPrint(current_screen, tfont, (260+5), (195+7), tigrRGB(255,0,0), "down");
+            if(mouseX > sortboxX && mouseX < (sortboxX + sortboxWidth) && mouseY > 170 && mouseY < (170 + sortboxHeight)){
+                if(buttons & 1){
+                    tigrFillRect(current_screen, sortboxX, 170, 45, sortboxHeight, tigrRGB(0,0,255));
+                    //clear screen
+                    //sort ascending
+                }
+            }
+            if(mouseX > sortboxX && mouseX < (sortboxX + sortboxWidth) && mouseY > 195 && mouseY < (195 + sortboxHeight)){
+                if(buttons & 1){
+                    tigrFillRect(current_screen, sortboxX, 195, 45, sortboxHeight, tigrRGB(0,0,255));
+                    //clear screen
+                    //sort descending
+                }
+            }
+        }
+
+
+
+
         tigrUpdate(current_screen);
     }
     tigrFree(current_screen);
@@ -459,13 +492,19 @@ void Waltr::openStackWindow() {
                 }
             }
         }
+
+        tigrPrint(current_screen, tfont, 265, 150, tigrRGB(255,0,0), "Sort: " );
+        tigrFillRect(current_screen, 260, 170, 45, 20, tigrRGB(38,252,66));
+        tigrPrint(current_screen, tfont, (260+5), (170+4), tigrRGB(255,0,0), "up");
+        tigrFillRect(current_screen, 260, 195, 45, 20, tigrRGB(38,252,66));
+        tigrPrint(current_screen, tfont, (260+5), (195+7), tigrRGB(255,0,0), "down");
+
+        
+    
         tigrUpdate(current_screen);
     }
     tigrFree(current_screen);
 }
-
-
-//Adding sorting Functions
 
 
 
