@@ -165,7 +165,7 @@ void Waltr::drawVector() {
         // }
 
         //for(int i=0+page_index*10; i < (size < 10 ? size + page_index*10: 10 + page_index*10) ; i++) {
-       for(int i=page_index*10; i < (size < 10 ? size: 10 + page_index*10) ; i++) {
+       for(int i=page_index*10; i < (i % 10 ? size: 10 + page_index*10) ; i++) {
             tigrRect(current_screen, bufferX, bufferY, boxSize, boxSize, tigrRGB(0,0,0));
             tigrFillRect(current_screen, bufferX, bufferY, boxSize, boxSize, tigrRGB(0, 50, 0));
             tigrPrint(current_screen, tfont, bufferX + 3, bufferY - 15, tigrRGB(60, 0, 0), "%d", i);
@@ -225,7 +225,7 @@ void Waltr::drawQueue() {
         
         //we dont want to/cant pop a 0 size queue
         if (item_index != 0) {
-            for (int i = 0; i<item_index;i++) {
+            for (int i = 0; i < item_index;i++) {
                 queue.pop();
             }
         }
@@ -343,9 +343,15 @@ void Waltr::openVectorWindow() {
             drawVector();
         }
 
-        if (tigrKeyDown(current_screen, 'X') && page_index < vector_log[vector_index].size() / 10) {
+        if (tigrKeyDown(current_screen, 'X') && page_index + 1 <= vector_log[vector_index].size() / 10) {
             page_index++;
             item_index = page_index*10;
+            if (page_index == vector_log[vector_index].size() / 10)
+                {
+                    
+                    item_index--;
+                    
+                }
             tigrClear(current_screen,tigrRGB(0,0,0));
             drawVector();
         }
