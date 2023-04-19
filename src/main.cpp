@@ -15,7 +15,7 @@ int main(void) {
 
     std::vector<int> vec;
     Waltr waltr = Waltr(vec);
-    for(int i=0;i<50;i++) {
+    for(int i=0;i<51;i++) {
         vec.push_back(i);
     }
 	waltr.logVector(vec);

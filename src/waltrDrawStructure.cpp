@@ -346,7 +346,7 @@ void Waltr::openVectorWindow() {
         if (tigrKeyDown(current_screen, 'X') && page_index + 1 <= vector_log[vector_index].size() / 10) {
             page_index++;
             item_index = page_index*10;
-            if (page_index == vector_log[vector_index].size() / 10)
+            if (item_index == vector_log[vector_index].size())
                 {
                     
                     item_index--;
