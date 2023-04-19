@@ -182,8 +182,8 @@ void Waltr::drawVector() {
         tigrFillRect(current_screen, screenX/2 - 40, screenY/2 - 40, 50, 50, tigrRGB(38, 252, 66));
         tigrPrint(current_screen, tfont, screenX/2 - 30, screenY/2 - 30, tigrRGB(255,0,0), "%d", vector_log[vector_index][item_index]);
 
-        tigrFillRect(current_screen, coords[item_index]-2, bufferY-2, boxSize+4, boxSize+4, tigrRGB(0, 200, 0));
-        tigrPrint(current_screen, tfont, coords[item_index]+3, bufferY - 15, tigrRGB(255, 0, 0), "%d", item_index);
+        tigrFillRect(current_screen, coords[(item_index-page_index*10) % 10]-2, bufferY-2, boxSize+4, boxSize+4, tigrRGB(0, 200, 0));
+        tigrPrint(current_screen, tfont, coords[(item_index-page_index*10) % 10]+3, bufferY - 15, tigrRGB(255, 0, 0), "%d", item_index);
     }   
 }
 
@@ -336,14 +336,14 @@ void Waltr::openVectorWindow() {
             drawVector();
         }
         
-        if (tigrKeyDown(current_screen, 'Z') && item_index > 0) {
-            page_index++;
+        if (tigrKeyDown(current_screen, 'Z') && page_index > 0 ) {
+            page_index--;
             item_index = page_index*10;
             tigrClear(current_screen,tigrRGB(0,0,0));
             drawVector();
         }
 
-        if (tigrKeyDown(current_screen, 'C') && item_index > 0) {
+        if (tigrKeyDown(current_screen, 'C') && page_index < vector_log[vector_index].size() / 10) {
             page_index++;
             item_index = page_index*10;
             tigrClear(current_screen,tigrRGB(0,0,0));
@@ -351,17 +351,17 @@ void Waltr::openVectorWindow() {
         }
 
         tigrMouse(current_screen, &mouseX, &mouseY, &buttons); // get mouse coordinates
-        for (int i = 0; i < size; i++) { // test if mouse coordinates are within array boxes
-            if(mouseX > coords[i] && mouseX < (coords[i]+ boxSize) && mouseY > bufferY && mouseY < (bufferY+boxSize)) {
-                tigrFillRect(current_screen, coords[i], bufferY, boxSize, boxSize, tigrRGB(0,0,255)); // highlights box blue
+        for(int i=page_index*10; i < (size < 10 ? size: 10 + page_index*10) ; i++) { // test if mouse coordinates are within array boxes
+            if(mouseX > coords[i] && mouseX < (coords[(i-page_index*10) % 10]+ boxSize) && mouseY > bufferY && mouseY < (bufferY+boxSize)) {
+                tigrFillRect(current_screen, coords[(i-page_index*10) % 10], bufferY, boxSize, boxSize, tigrRGB(0,0,255)); // highlights box blue
                 if(buttons & 1) { // if mouse button clicked
-                    item_index = i;
+                    item_index = (i-page_index*10) % 10;
                     tigrClear(current_screen,tigrRGB(0,0,0));
                     drawVector();
                 }
             } else {
-                if (i != item_index) {
-                    tigrFillRect(current_screen, coords[i], bufferY, boxSize, boxSize, tigrRGB(38, 252, 66)); // changes box back to green
+                if ((i-page_index*10) % 10 != item_index) {
+                    tigrFillRect(current_screen, coords[(i-page_index*10) % 10], bufferY, boxSize, boxSize, tigrRGB(38, 252, 66)); // changes box back to green
                 }
             }
         }

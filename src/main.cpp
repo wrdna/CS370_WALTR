@@ -17,6 +17,6 @@ int main(void) {
     Waltr waltr = Waltr(vec);
     for(int i=0;i<50;i++) {
         vec.push_back(i);
-        waltr.logVector(vec);
     }
+	waltr.logVector(vec);
 }
