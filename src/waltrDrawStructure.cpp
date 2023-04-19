@@ -157,17 +157,19 @@ void Waltr::drawVector() {
     if (vector_log[vector_index].empty()) {
         tigrPrint(current_screen, tfont, 30, screenY/2, tigrRGB(50,50,200), "Vector is empty!");
     } else {
-                
-        if (item_index / 10 > page_index) {
-            page_index++;
-        }
+
+        page_index = item_index / 10;
+
+        // if (item_index / 10 > page_index) {
+        //     page_index++;
+        // }
 
         //for(int i=0+page_index*10; i < (size < 10 ? size + page_index*10: 10 + page_index*10) ; i++) {
-       for(int i=0+page_index*10; i < (size < 10 ? size%10: 10 + page_index*10) ; i++) {
+       for(int i=page_index*10; i < (size < 10 ? size: 10 + page_index*10) ; i++) {
             tigrRect(current_screen, bufferX, bufferY, boxSize, boxSize, tigrRGB(0,0,0));
             tigrFillRect(current_screen, bufferX, bufferY, boxSize, boxSize, tigrRGB(0, 50, 0));
             tigrPrint(current_screen, tfont, bufferX + 3, bufferY - 15, tigrRGB(60, 0, 0), "%d", i);
-            coords[i-page_index*10] = bufferX;
+            coords[(i-page_index*10) % 10] = bufferX;
             bufferX = bufferX + boxSize + 2;
         }
         //current index cant be larger than size of vector
