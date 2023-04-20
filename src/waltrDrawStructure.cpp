@@ -282,15 +282,12 @@ void Waltr::drawStack() {
         }
 
         tigrPrint(current_screen, tfont, screenX/2 + 10, screenY/2 - 40, tigrRGB(255,0,0), "Index: %d", item_index); // prints index
-        tigrPrint(current_screen, tfont, screenX/2 + 10, screenY/2 - 20, tigrRGB(255,0,0), "Type: %s", typeid(stack.top()).name()); // prints data type
+        tigrPrint(current_screen, tfont, screenX/2 + 10, screenY/2 - 20, tigrRGB(255,0,0), "Type: %s", typeid(stack.top()).name()); 
+        // prints data type
         
         tigrRect(current_screen, screenX/2 - 50, screenY/2 - 40, 50, 50, tigrRGB(0,0,0));
         tigrFillRect(current_screen, screenX/2 - 50, screenY/2 - 40, 50, 50, tigrRGB(38, 252, 66));
         tigrPrint(current_screen, tfont, screenX/2 - 40, screenY/2 - 30, tigrRGB(255,0,0), "%d", stack.top()); // prints green box with data in it
-
-        tigrPrint(current_screen, tfont, screenX/2 - 153, coords[item_index] + 2, tigrRGB(255,0,0), ">"); // prints arrow corresponding to box user is currently on
-        
-        tigrFillRect(current_screen, bufferX, coords[item_index], 50, boxSize, tigrRGB(0,0,255)); //highlights current index
 
     }
 }
@@ -366,6 +363,38 @@ void Waltr::openVectorWindow() {
                 }
             }
         }
+        
+        //sort box dimensions
+        int sortboxWidth = 45;
+        int sortboxHeight = 20;
+        int sortboxX = 260;
+        
+        //if on last instance
+        if(vector_index > 0){
+            tigrPrint(current_screen, tfont, 265, 150, tigrRGB(255,0,0), "Sort: " );
+            tigrFillRect(current_screen, sortboxX, 170, 45, sortboxHeight, tigrRGB(38,252,66));
+            tigrPrint(current_screen, tfont, (260+5), (170+4), tigrRGB(255,0,0), "Asc");
+            tigrFillRect(current_screen, sortboxX, 195, 45, sortboxHeight, tigrRGB(38,252,66));
+            tigrPrint(current_screen, tfont, (260+5), (195+7), tigrRGB(255,0,0), "Desc");
+            if(mouseX > sortboxX && mouseX < (sortboxX + sortboxWidth) && mouseY > 170 && mouseY < (170 + sortboxHeight)){
+                if(buttons & 1){
+                    tigrFillRect(current_screen, sortboxX, 170, 45, sortboxHeight, tigrRGB(0,0,255));
+                    //tigrClear(current_screen, tigrRGB(0,0,0));
+                    std::sort(vector_log[vector_index].begin(), vector_log[vector_index].end());
+                    drawVector();
+                }
+            }
+            if(mouseX > sortboxX && mouseX < (sortboxX + sortboxWidth) && mouseY > 195 && mouseY < (195 + sortboxHeight)){
+                if(buttons & 1){
+                    tigrFillRect(current_screen, sortboxX, 195, 45, sortboxHeight, tigrRGB(0,0,255));
+                    //tigrClear(current_screen, tigrRGB(0,0,0));
+                    std::sort(vector_log[vector_index].rbegin(), vector_log[vector_index].rend());
+                    drawVector();
+                }
+            }
+        }
+
+        
         tigrUpdate(current_screen);
     }
     tigrFree(current_screen);
