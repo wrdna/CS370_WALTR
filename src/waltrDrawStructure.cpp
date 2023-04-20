@@ -363,13 +363,7 @@ void Waltr::openVectorWindow() {
                 if(buttons & 1){
                     tigrFillRect(current_screen, sortboxX, 170, 45, sortboxHeight, tigrRGB(0,0,255));
                     tigrClear(current_screen, tigrRGB(0,0,0));
-                    std::vector<int> copyVec;
-                    for(int i = 0; i < vector_index; i++){
-                        //copyVec.push_back(vector_log[item_index]);
-
-                    }
-                    std::sort(vector_log.begin(), vector_log.end());
-                    //std::vector<int> sortedVecUp = (vector_log.begin(),vector_log.end()); 
+                    std::sort(vector_log[vector_index].begin(), vector_log[vector_index].end());
                     drawVector();
                 }
             }
@@ -377,8 +371,7 @@ void Waltr::openVectorWindow() {
                 if(buttons & 1){
                     tigrFillRect(current_screen, sortboxX, 195, 45, sortboxHeight, tigrRGB(0,0,255));
                     tigrClear(current_screen, tigrRGB(0,0,0));
-                    std::sort(vector_log.rbegin(), vector_log.rend());
-                    //std::vector<int> sortedVecDown = vector_log;
+                    std::sort(vector_log[vector_index].rbegin(), vector_log[vector_index].rend());
                     drawVector();
                 }
             }
