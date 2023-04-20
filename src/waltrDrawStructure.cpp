@@ -356,21 +356,30 @@ void Waltr::openVectorWindow() {
         if(vector_index == (vector_log.size()-1)){
             tigrPrint(current_screen, tfont, 265, 150, tigrRGB(255,0,0), "Sort: " );
             tigrFillRect(current_screen, sortboxX, 170, 45, sortboxHeight, tigrRGB(38,252,66));
-            tigrPrint(current_screen, tfont, (260+5), (170+4), tigrRGB(255,0,0), "up");
+            tigrPrint(current_screen, tfont, (260+5), (170+4), tigrRGB(255,0,0), "Up");
             tigrFillRect(current_screen, sortboxX, 195, 45, sortboxHeight, tigrRGB(38,252,66));
-            tigrPrint(current_screen, tfont, (260+5), (195+7), tigrRGB(255,0,0), "down");
+            tigrPrint(current_screen, tfont, (260+5), (195+7), tigrRGB(255,0,0), "Down");
             if(mouseX > sortboxX && mouseX < (sortboxX + sortboxWidth) && mouseY > 170 && mouseY < (170 + sortboxHeight)){
                 if(buttons & 1){
                     tigrFillRect(current_screen, sortboxX, 170, 45, sortboxHeight, tigrRGB(0,0,255));
-                    //clear screen
-                    //sort ascending
+                    tigrClear(current_screen, tigrRGB(0,0,0));
+                    std::vector<int> copyVec;
+                    for(int i = 0; i < vector_index; i++){
+                        //copyVec.push_back(vector_log[item_index]);
+
+                    }
+                    std::sort(vector_log.begin(), vector_log.end());
+                    //std::vector<int> sortedVecUp = (vector_log.begin(),vector_log.end()); 
+                    drawVector();
                 }
             }
             if(mouseX > sortboxX && mouseX < (sortboxX + sortboxWidth) && mouseY > 195 && mouseY < (195 + sortboxHeight)){
                 if(buttons & 1){
                     tigrFillRect(current_screen, sortboxX, 195, 45, sortboxHeight, tigrRGB(0,0,255));
-                    //clear screen
-                    //sort descending
+                    tigrClear(current_screen, tigrRGB(0,0,0));
+                    std::sort(vector_log.rbegin(), vector_log.rend());
+                    //std::vector<int> sortedVecDown = vector_log;
+                    drawVector();
                 }
             }
         }
@@ -505,6 +514,13 @@ void Waltr::openStackWindow() {
     }
     tigrFree(current_screen);
 }
+
+/*void sortVecUp(){
+    logVector(std::sort(vec))
+
+}*/
+
+
 
 
 
