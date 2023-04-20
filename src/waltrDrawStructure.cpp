@@ -2,6 +2,7 @@
 #include <vector>
 #include <array>
 #include <queue>
+#include <algorithm>
 
 #include <iostream>
 #include "tigr.h"
