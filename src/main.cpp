@@ -15,7 +15,7 @@ int main(void) {
 
     std::queue<int> q;
     Waltr waltr = Waltr(q);
-    for(int i=0;i<10;i++) {
+    for(int i=0;i<44;i++) {
         q.push(i*2);
     }
 	waltr.logQueue(q);

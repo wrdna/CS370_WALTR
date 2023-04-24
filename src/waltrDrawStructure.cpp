@@ -197,13 +197,13 @@ void Waltr::drawQueue() {
     if(queue.empty()) {
         tigrPrint(current_screen, tfont, 30, screenY/2, tigrRGB(50,50,200), "Queue is empty!");
     } else {
-        for (int i = 0; i < size; i++) {
+        for (int i = page_index*10; i < (i % 10 ? size: 10 + page_index*10); i++) {
             tigrRect(current_screen, bufferX, bufferY, 50, boxSize, tigrRGB(0,0,0));
             tigrFillRect(current_screen, bufferX, bufferY, 50, boxSize, tigrRGB(0, 50, 0)); // prints boxes
             
             queue.pop(); // pops through set to print each box
             
-            coords[i] = bufferY;
+            coords[(i-page_index*10) % 10] = bufferY;
             bufferY += boxSize; // ensures that coordinates line up with box dimensions
             
             tigrPrint(current_screen, tfont, bufferX + 55, coords[i] + 2, tigrRGB(60, 0 , 0), "%d", i); // prints indices
@@ -221,6 +221,10 @@ void Waltr::drawQueue() {
             for (int i = 0; i < item_index;i++) {
                 queue.pop();
             }
+            
+            tigrFillRect(current_screen, bufferX, coords[(item_index-page_index*10) % 10], 50, boxSize, tigrRGB(0, 200, 0)); // prints boxes
+            tigrPrint(current_screen, tfont, bufferX + 55, coords[(item_index-page_index*10) % 10] + 2, tigrRGB(255, 0 , 0), "%d", item_index); // prints indices
+            
         }
 
         tigrPrint(current_screen, tfont, screenX/2 + 10, screenY/2 - 40, tigrRGB(255,0,0), "Index: %d", item_index); // prints index
@@ -252,10 +256,10 @@ void Waltr::drawStack() {
         tigrPrint(current_screen, tfont, 30, screenY/2, tigrRGB(50,50,200), "Stack is empty!");
     } else {
 
-        for (int i = 0; i < size; i++) {
+        for(int i=page_index*10; i < (i % 10 ? size: 10 + page_index*10) ; i++) {
             tigrRect(current_screen, bufferX, bufferY, 50, boxSize, tigrRGB(0,0,0));
             tigrFillRect(current_screen, bufferX, bufferY, 50, boxSize, tigrRGB(38, 252, 66)); // prints boxes
-            coords[i] = bufferY;
+            coords[(i-page_index*10) % 10] = bufferY;
             bufferY += boxSize; // ensures that coordinates line up with box dimensions
             
             tigrPrint(current_screen, tfont, bufferX + 55, coords[i] + 2, tigrRGB(255, 0 , 0), "%d", i); // prints indices
