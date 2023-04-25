@@ -409,6 +409,8 @@ void Waltr::openQueueWindow() {
     //Used to iterate through queue instances
     queue_index = 0;
 
+    page_index = 0;
+
     //prints initial vector and instance number
     drawQueue();
     tigrUpdate(current_screen);
