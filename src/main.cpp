@@ -13,10 +13,10 @@ int main(void) {
 	// drawStructure(arr_c,5);
 	// drawStructure(vec);
 
-    std::queue<int> q;
-    Waltr waltr = Waltr(q);
+    std::vector<int> v;
+    Waltr waltr = Waltr(v);
     for(int i=0;i<44;i++) {
-        q.push(i*2);
+        v.push_back(i*2);
     }
-	waltr.logQueue(q);
+	waltr.logVector(v);
 }

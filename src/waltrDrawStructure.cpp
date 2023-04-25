@@ -154,7 +154,7 @@ void Waltr::drawVector() {
     //scale the vector so it fits on screen
     boxSize = 12;
 
-    tigrPrint(current_screen, tfont, 30, 30, tigrRGB(255,0,0), "Logged instance: %d / %d", vector_index+1, vector_log.size());
+    tigrPrint(current_screen, tfont, 30, 30, tigrRGB(50,50,200), "Logged instance: %d / %d", vector_index+1, vector_log.size());
     if (vector_log[vector_index].empty()) {
         tigrPrint(current_screen, tfont, 30, screenY/2, tigrRGB(50,50,200), "Vector is empty!");
     } else {
@@ -162,15 +162,15 @@ void Waltr::drawVector() {
         page_index = item_index / 10;
 
        for(int i=page_index*10; i < (i % 10 ? size: 10 + page_index*10) ; i++) {
-            tigrRect(current_screen, bufferX, bufferY, boxSize, boxSize, tigrRGB(0,0,0));
-            tigrFillRect(current_screen, bufferX, bufferY, boxSize, boxSize, tigrRGB(0, 50, 0));
-            tigrPrint(current_screen, tfont, bufferX + 3, bufferY - 15, tigrRGB(60, 0, 0), "%d", i);
+            tigrRect(current_screen, bufferX - 5, bufferY, boxSize, boxSize, tigrRGB(0,0,0));
+            tigrFillRect(current_screen, bufferX - 5, bufferY, boxSize, boxSize, tigrRGB(0, 50, 0));
+            tigrPrint(current_screen, tfont, bufferX - 3, bufferY - 15, tigrRGB(60, 0, 0), "%d", i);
             coords[(i-page_index*10) % 10] = bufferX;
-            bufferX = bufferX + boxSize + 2;
+            bufferX = bufferX + boxSize + 4;
         }
         //current index cant be larger than size of vector
             if (item_index >= vector_log[vector_index].size() - 1) {
-                item_index =vector_log[vector_index].size() - 1;
+                item_index = vector_log[vector_index].size() - 1;
         }
 
         tigrPrint(current_screen, tfont, screenX/2 + 30, screenY/2 - 30, tigrRGB(255,0,0), "Index: %d", item_index);
@@ -178,8 +178,8 @@ void Waltr::drawVector() {
         tigrFillRect(current_screen, screenX/2 - 40, screenY/2 - 40, 50, 50, tigrRGB(38, 252, 66));
         tigrPrint(current_screen, tfont, screenX/2 - 30, screenY/2 - 30, tigrRGB(255,0,0), "%d", vector_log[vector_index][item_index]);
 
-        tigrFillRect(current_screen, coords[(item_index-page_index*10) % 10]-2, bufferY-2, boxSize+4, boxSize+4, tigrRGB(0, 200, 0));
-        tigrPrint(current_screen, tfont, coords[(item_index-page_index*10) % 10]+3, bufferY - 15, tigrRGB(255, 0, 0), "%d", item_index);
+        tigrFillRect(current_screen, coords[(item_index-page_index*10) % 10] - 7, bufferY-2, boxSize+4, boxSize+4, tigrRGB(0, 200, 0));
+        tigrPrint(current_screen, tfont, coords[(item_index-page_index*10) % 10] - 3, bufferY - 15, tigrRGB(255, 0, 0), "%d", item_index);
     }
 }
 
