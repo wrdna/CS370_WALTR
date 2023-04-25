@@ -305,7 +305,7 @@ void Waltr::openVectorWindow() {
     //Used to iterate through current vector
     item_index = 0;
 
-    page_index  =0;
+    page_index = 0;
 
     //prints initial vector and instance number
     drawVector();
@@ -345,10 +345,8 @@ void Waltr::openVectorWindow() {
             page_index++;
             item_index = page_index*10;
             if (item_index == vector_log[vector_index].size())
-                {
-                    
-                    item_index--;
-                    
+                { 
+                    item_index--;   
                 }
             tigrClear(current_screen,tigrRGB(0,0,0));
             drawVector();
@@ -451,10 +449,8 @@ void Waltr::openQueueWindow() {
             page_index++;
             item_index = page_index*10;
             if (item_index == queue_log[queue_index].size())
-                {
-                    
-                    item_index--;
-                    
+                {       
+                    item_index--;   
                 }
             tigrClear(current_screen,tigrRGB(0,0,0));
             drawQueue();
@@ -462,8 +458,8 @@ void Waltr::openQueueWindow() {
         
 
         tigrMouse(current_screen, &mouseX, &mouseY, &buttons); // get mouse coordinates
-        for (int i = 0; i < size; i++) { // test if mouse coordinates are within array boxes
-            if (mouseX > bufferX && mouseX < (bufferX + 50) && mouseY > coords[i] && mouseY < (coords[i]+boxSize)) {
+        for(int i=page_index*10; i < (size < 10 ? size: 10 + page_index*10) ; i++) { // test if mouse coordinates are within array boxes
+            if (mouseX > bufferX && mouseX < (bufferX + 50) && mouseY > coords[(i-page_index*10) % 10] && mouseY < (coords[(i-page_index*10) % 10]+boxSize)) {
                 if(buttons & 1) { // if mouse button clicked
                     item_index = i;
                     tigrClear(current_screen,tigrRGB(0,0,0));
@@ -526,9 +522,7 @@ void Waltr::openStackWindow() {
             item_index = page_index*10;
             if (item_index == stack_log[stack_index].size())
                 {
-                    
-                    item_index--;
-                    
+                    item_index--;   
                 }
             tigrClear(current_screen,tigrRGB(0,0,0));
             drawStack();
