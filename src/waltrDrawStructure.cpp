@@ -209,8 +209,6 @@ void Waltr::drawQueue() {
             
             coords[(i-page_index*10) % 10] = bufferY;
             bufferY += boxSize; // ensures that coordinates line up with box dimensions
-            
-
         }
 
         queue = queue_log[queue_index];
@@ -255,26 +253,32 @@ void Waltr::drawStack() {
     coords.resize(size);
 
     boxSize = 12;
-    tigrPrint(current_screen, tfont, 30, screenY - 30, tigrRGB(50,50,200), "Logged instance: %d / %d", stack_index, stack_log.size()-1);
+    tigrPrint(current_screen, tfont, 30, screenY - 30, tigrRGB(50,50,200), "Logged instance: %d / %d", stack_index+1, stack_log.size());
     if(stack.empty()) {
         tigrPrint(current_screen, tfont, 30, screenY/2, tigrRGB(50,50,200), "Stack is empty!");
     } else {
 
+        page_index = item_index / 10;
+
         for(int i=page_index*10; i < (i % 10 ? size: 10 + page_index*10) ; i++) {
             tigrRect(current_screen, bufferX, bufferY, 50, boxSize, tigrRGB(0,0,0));
-            tigrFillRect(current_screen, bufferX, bufferY, 50, boxSize, tigrRGB(38, 252, 66)); // prints boxes
+            tigrFillRect(current_screen, bufferX, bufferY, 50, boxSize, tigrRGB(0, 50, 0)); // prints boxes
+            tigrPrint(current_screen, tfont, bufferX + 55, bufferY + 2, tigrRGB(60, 0 , 0), "%d", i); // prints indices
+
+            stack.pop();
+
             coords[(i-page_index*10) % 10] = bufferY;
             bufferY += boxSize; // ensures that coordinates line up with box dimensions
-            
-            tigrPrint(current_screen, tfont, bufferX + 55, coords[i] + 2, tigrRGB(255, 0 , 0), "%d", i); // prints indices
         }
+
+        stack = stack_log[stack_index];
 
         if (item_index >= stack.size() - 1) {
             item_index = stack.size() - 1;
         }
 
         if (item_index != 0) {
-            for (int i = 0; i<item_index;i++) {
+            for (int i = 0; i < item_index; i++) {
                 stack.pop();
             }
         }
@@ -466,7 +470,6 @@ void Waltr::openQueueWindow() {
                     drawQueue();
                 }
             }
-            
         }
         tigrUpdate(current_screen);
     }
@@ -484,6 +487,8 @@ void Waltr::openStackWindow() {
 
     //Used to iterate through stack instances
     stack_index = 0;
+
+    page_index = 0;
 
     //prints initial vector and instance number
     drawStack();
@@ -530,13 +535,12 @@ void Waltr::openStackWindow() {
         
 
         tigrMouse(current_screen, &mouseX, &mouseY, &buttons); // get mouse coordinates
-        for (int i = 0; i < size; i++) { // test if mouse coordinates are within array boxes
-            if (mouseX > bufferX && mouseX < (bufferX + 50) && mouseY > coords[i] && mouseY < (coords[i]+boxSize)) {
+        for(int i=page_index*10; i < (size < 10 ? size: 10 + page_index*10) ; i++) { // test if mouse coordinates are within array boxes
+            if (mouseX > bufferX && mouseX < (bufferX + 50) && mouseY > coords[(i-page_index*10) % 10] && mouseY < (coords[(i-page_index*10) % 10]+boxSize)) {
                 if(buttons & 1) { // if mouse button clicked
                     item_index = i;
                     tigrClear(current_screen,tigrRGB(0,0,0));
                     drawStack();
-                    
                 }
             }
         }
