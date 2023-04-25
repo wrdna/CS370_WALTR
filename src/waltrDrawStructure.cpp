@@ -197,16 +197,20 @@ void Waltr::drawQueue() {
     if(queue.empty()) {
         tigrPrint(current_screen, tfont, 30, screenY/2, tigrRGB(50,50,200), "Queue is empty!");
     } else {
+
+        page_index = item_index / 10;
+
         for (int i = page_index*10; i < (i % 10 ? size: 10 + page_index*10); i++) {
             tigrRect(current_screen, bufferX, bufferY, 50, boxSize, tigrRGB(0,0,0));
             tigrFillRect(current_screen, bufferX, bufferY, 50, boxSize, tigrRGB(0, 50, 0)); // prints boxes
+            tigrPrint(current_screen, tfont, bufferX + 55, bufferY + 2, tigrRGB(60, 0 , 0), "%d", i); // prints indices
             
             queue.pop(); // pops through set to print each box
             
             coords[(i-page_index*10) % 10] = bufferY;
             bufferY += boxSize; // ensures that coordinates line up with box dimensions
             
-            tigrPrint(current_screen, tfont, bufferX + 55, coords[i] + 2, tigrRGB(60, 0 , 0), "%d", i); // prints indices
+
         }
 
         queue = queue_log[queue_index];
