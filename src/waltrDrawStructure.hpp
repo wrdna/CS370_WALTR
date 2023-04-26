@@ -100,6 +100,12 @@ class Waltr {
 		void openQueueWindow();
 
 		void openStackWindow();
+		
+		//help screens
+		void drawVHelp();
+	
+		void drawQSHelp();
+
 
 
 		//DESTRUCTOR!!!

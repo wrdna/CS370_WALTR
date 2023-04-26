@@ -143,6 +143,37 @@ void Waltr::printQueueLog() {
         std::cout<<std::endl;
 }
 
+//help screens
+
+
+void Waltr::drawVHelp() {
+    //help screen
+    tigrPrint(current_screen, tfont, 5, 5, tigrRGB(0,255,0), "Help Screen");
+    
+    tigrPrint(current_screen, tfont, 25, 225, tigrRGB(255,0,0), "Press the Left or Right arrow keys to return");
+    
+    tigrPrint(current_screen, tfont, 10, 30, tigrRGB(0,200,100), "Press the Left and Right arrow keys to ");
+    tigrPrint(current_screen, tfont, 10, 45, tigrRGB(0,200,100), "scroll through indices. ");
+    
+    tigrPrint(current_screen, tfont, 10, 80, tigrRGB(0,200,100), "Press the Up and Down arrow keys To ");
+    tigrPrint(current_screen, tfont, 10, 95, tigrRGB(0,200,100), "change between instances.");
+}
+
+
+void Waltr::drawQSHelp() {
+    //help screen
+    tigrPrint(current_screen, tfont, 5, 5, tigrRGB(0,255,0), "Help Screen");
+    
+    tigrPrint(current_screen, tfont, 25, 225, tigrRGB(255,0,0), "Press the Up or Down arrow keys to return");
+    
+    tigrPrint(current_screen, tfont, 10, 30, tigrRGB(0,200,100), "Press the Left and Right arrow keys to");
+    tigrPrint(current_screen, tfont, 10, 45, tigrRGB(0,200,100), "change between instances.");
+    
+    tigrPrint(current_screen, tfont, 10, 80, tigrRGB(0,200,100), "Press the Up and Down arrow keys ");
+    tigrPrint(current_screen, tfont, 10, 95, tigrRGB(0,200,100), "to scroll through indices.");
+    
+}
+
 void Waltr::drawVector() {
     bufferX = 90;
     bufferY = 210;
@@ -153,6 +184,14 @@ void Waltr::drawVector() {
 
     //scale the vector so it fits on screen
     boxSize = 12;
+    
+    tigrPrint(current_screen, tfont, 10, 230, tigrRGB(50,50,200), "Press 'H' for help screen");
+    
+    //help screen
+    if (tigrKeyDown(current_screen, 'H')){
+        tigrClear(current_screen,tigrRGB(0,0,0));
+        drawVHelp();  
+    }
 
     tigrPrint(current_screen, tfont, 30, 30, tigrRGB(50,50,200), "Logged instance: %d / %d", vector_index+1, vector_log.size());
     if (vector_log[vector_index].empty()) {
@@ -191,6 +230,8 @@ void Waltr::drawQueue() {
     size = queue.size();
 
     coords.resize(size);
+    
+    tigrPrint(current_screen, tfont, 10, 230, tigrRGB(50,50,200), "Press 'H' for help screen");
 
     boxSize = 12;
     tigrPrint(current_screen, tfont, 30, screenY - 30, tigrRGB(50,50,200), "Logged instance: %d / %d", queue_index+1, queue_log.size());
@@ -251,6 +292,8 @@ void Waltr::drawStack() {
     size = stack.size();
 
     coords.resize(size);
+    
+    tigrPrint(current_screen, tfont, 10, 230, tigrRGB(50,50,200), "Press 'H' for help screen");
 
     boxSize = 12;
     tigrPrint(current_screen, tfont, 30, screenY - 30, tigrRGB(50,50,200), "Logged instance: %d / %d", stack_index+1, stack_log.size());
@@ -358,7 +401,7 @@ void Waltr::openVectorWindow() {
 
         tigrMouse(current_screen, &mouseX, &mouseY, &buttons); // get mouse coordinates
         for(int i=page_index*10; i < (size < 10 ? size: 10 + page_index*10) ; i++) { // test if mouse coordinates are within array boxes
-            if(mouseX > coords[(i-page_index*10) % 10] && mouseX < (coords[(i-page_index*10) % 10]+ boxSize) && mouseY > bufferY && mouseY < (bufferY+boxSize)) {
+            if(mouseX > coords[(i-page_index*10) % 10] - 7 && mouseX < (coords[(i-page_index*10) % 10] + boxSize) - 7 && mouseY > bufferY && mouseY < (bufferY+boxSize)) {
                 if(buttons & 1) { // if mouse button clicked
                     item_index = i;
                     tigrClear(current_screen,tigrRGB(0,0,0));
@@ -395,9 +438,13 @@ void Waltr::openVectorWindow() {
                     drawVector();
                 }
             }
-        }
-
+            
+            if (tigrKeyDown(current_screen, 'H')){
+                tigrClear(current_screen,tigrRGB(0,0,0));
+                drawVHelp();
+            }
         
+        }
         tigrUpdate(current_screen);
     }
     tigrFree(current_screen);
@@ -460,7 +507,6 @@ void Waltr::openQueueWindow() {
             drawQueue();
         }
         
-
         tigrMouse(current_screen, &mouseX, &mouseY, &buttons); // get mouse coordinates
         for(int i=page_index*10; i < (size < 10 ? size: 10 + page_index*10) ; i++) { // test if mouse coordinates are within array boxes
             if (mouseX > bufferX && mouseX < (bufferX + 50) && mouseY > coords[(i-page_index*10) % 10] && mouseY < (coords[(i-page_index*10) % 10]+boxSize)) {
@@ -468,9 +514,16 @@ void Waltr::openQueueWindow() {
                     item_index = i;
                     tigrClear(current_screen,tigrRGB(0,0,0));
                     drawQueue();
+
                 }
             }
         }
+        
+        if (tigrKeyDown(current_screen, 'H')){
+            tigrClear(current_screen,tigrRGB(0,0,0));
+            drawQSHelp();
+        }
+        
         tigrUpdate(current_screen);
     }
     tigrFree(current_screen);
@@ -532,7 +585,6 @@ void Waltr::openStackWindow() {
             tigrClear(current_screen,tigrRGB(0,0,0));
             drawStack();
         }
-        
 
         tigrMouse(current_screen, &mouseX, &mouseY, &buttons); // get mouse coordinates
         for(int i=page_index*10; i < (size < 10 ? size: 10 + page_index*10) ; i++) { // test if mouse coordinates are within array boxes
@@ -544,6 +596,12 @@ void Waltr::openStackWindow() {
                 }
             }
         }
+        
+        if (tigrKeyDown(current_screen, 'H')){
+            tigrClear(current_screen,tigrRGB(0,0,0));
+            drawQSHelp();
+        }
+        
         tigrUpdate(current_screen);
     }
     tigrFree(current_screen);
