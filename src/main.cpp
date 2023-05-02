@@ -14,11 +14,21 @@ int main(void) {
 	// drawStructure(arr_c,5);
 	// drawStructure(vec);
 
+    // std::vector<int> q = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,};
+    // Waltr waltr = Waltr(q);
+    // for(int i=0;i<q.size();i++) {
+	// 	q[i] = i;
+		
+    // }
+	// waltr.logVector(q);
+	// waltr.logVector(q);
+	
+	
     std::stack<int> stack;
     std::queue<int> queue;
-//Waltr waltr = Waltr(stack);
-  //  for(int i =0;i<5;i++) {
-    //    stack.push(i);
-      //  waltr.logStack(stack);
-   // }
+    Waltr waltr = Waltr(queue);
+    for(int i =0;i<5;i++) {
+        queue.push(i);
+        waltr.logQueue(queue);
+    }
 }

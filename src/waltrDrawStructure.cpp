@@ -143,7 +143,45 @@ void Waltr::printQueueLog() {
         std::cout<<std::endl;
 }
 
+//help screens
+
+
+void Waltr::drawVHelp() {
+    //help screen
+    tigrPrint(current_screen, tfont, 5, 5, tigrRGB(0,255,0), "Help Screen");
+    
+    tigrPrint(current_screen, tfont, 25, 225, tigrRGB(255,0,0), "Press the Left or Right arrow keys to return");
+    
+    tigrPrint(current_screen, tfont, 10, 30, tigrRGB(0,200,100), "Press the Left and Right arrow keys to ");
+    tigrPrint(current_screen, tfont, 10, 45, tigrRGB(0,200,100), "scroll through indices. ");
+    
+    tigrPrint(current_screen, tfont, 10, 80, tigrRGB(0,200,100), "Press the Up and Down arrow keys To ");
+    tigrPrint(current_screen, tfont, 10, 95, tigrRGB(0,200,100), "change between instances.");
+
+    tigrPrint(current_screen, tfont, 10, 130, tigrRGB(0,200,100), "Press the Z and X to move between ");
+    tigrPrint(current_screen, tfont, 10, 145, tigrRGB(0,200,100), "indices in groups of 10.");
+
+}
+
+
+void Waltr::drawQSHelp() {
+    //help screen
+    tigrPrint(current_screen, tfont, 5, 5, tigrRGB(0,255,0), "Help Screen");
+    
+    tigrPrint(current_screen, tfont, 25, 225, tigrRGB(255,0,0), "Press the Up or Down arrow keys to return");
+    
+    tigrPrint(current_screen, tfont, 10, 80, tigrRGB(0,200,100), "Press the Left and Right arrow keys to");
+    tigrPrint(current_screen, tfont, 10, 95, tigrRGB(0,200,100), "change between instances.");
+    
+    tigrPrint(current_screen, tfont, 10, 30, tigrRGB(0,200,100), "Press the Up and Down arrow keys ");
+    tigrPrint(current_screen, tfont, 10, 45, tigrRGB(0,200,100), "to scroll through indices.");
+    
+}
+
 void Waltr::drawVector() {
+    
+    help_screen_open = false;
+    
     bufferX = 90;
     bufferY = 210;
 
@@ -153,21 +191,28 @@ void Waltr::drawVector() {
 
     //scale the vector so it fits on screen
     boxSize = 12;
+    
+    tigrPrint(current_screen, tfont, 200, 30, tigrRGB(50,200,200), "Your vector!");
 
-    tigrPrint(current_screen, tfont, 30, 30, tigrRGB(255,0,0), "Logged instance: %d / %d", vector_index+1, vector_log.size());
+    tigrPrint(current_screen, tfont, 10, 230, tigrRGB(50,50,200), "Press 'H' for help screen");
+    
+    tigrPrint(current_screen, tfont, 30, 30, tigrRGB(50,50,200), "Logged instance: %d / %d", vector_index+1, vector_log.size());
     if (vector_log[vector_index].empty()) {
         tigrPrint(current_screen, tfont, 30, screenY/2, tigrRGB(50,50,200), "Vector is empty!");
     } else {
-        for(int i=0; i < size; i++) {
-            tigrRect(current_screen, bufferX, bufferY, boxSize, boxSize, tigrRGB(0,0,0));
-            tigrFillRect(current_screen, bufferX, bufferY, boxSize, boxSize, tigrRGB(0, 50, 0));
-            tigrPrint(current_screen, tfont, bufferX + 3, bufferY - 15, tigrRGB(60, 0, 0), "%d", i);
-            coords[i] = bufferX;
-            bufferX = bufferX + boxSize + 2;
+
+        page_index = item_index / 10;
+
+       for(int i=page_index*10; i < (i % 10 ? size: 10 + page_index*10) ; i++) {
+            tigrRect(current_screen, bufferX - 5, bufferY, boxSize, boxSize, tigrRGB(0,0,0));
+            tigrFillRect(current_screen, bufferX - 5, bufferY, boxSize, boxSize, tigrRGB(0, 50, 0));
+            tigrPrint(current_screen, tfont, bufferX - 3, bufferY - 15, tigrRGB(60, 0, 0), "%d", i);
+            coords[(i-page_index*10) % 10] = bufferX;
+            bufferX = bufferX + boxSize + 4;
         }
         //current index cant be larger than size of vector
             if (item_index >= vector_log[vector_index].size() - 1) {
-                item_index =vector_log[vector_index].size() - 1;
+                item_index = vector_log[vector_index].size() - 1;
         }
 
         tigrPrint(current_screen, tfont, screenX/2 + 30, screenY/2 - 30, tigrRGB(255,0,0), "Index: %d", item_index);
@@ -175,44 +220,44 @@ void Waltr::drawVector() {
         tigrFillRect(current_screen, screenX/2 - 40, screenY/2 - 40, 50, 50, tigrRGB(38, 252, 66));
         tigrPrint(current_screen, tfont, screenX/2 - 30, screenY/2 - 30, tigrRGB(255,0,0), "%d", vector_log[vector_index][item_index]);
 
-        tigrFillRect(current_screen, coords[item_index]-2, bufferY-2, boxSize+4, boxSize+4, tigrRGB(0, 200, 0));
-        tigrPrint(current_screen, tfont, coords[item_index]+3, bufferY - 15, tigrRGB(255, 0, 0), "%d", item_index);
-    }   
+        tigrFillRect(current_screen, coords[(item_index-page_index*10) % 10] - 7, bufferY-2, boxSize+4, boxSize+4, tigrRGB(0, 200, 0));
+        tigrPrint(current_screen, tfont, coords[(item_index-page_index*10) % 10] - 3, bufferY - 15, tigrRGB(255, 0, 0), "%d", item_index);
+    }
 }
 
-/*
-Function to draw the queue to a window
-*/
 void Waltr::drawQueue() {
-     std::queue<int> queue = queue_log[queue_index];
+    std::queue<int> queue = queue_log[queue_index];
     bufferX = 15;
     bufferY = 30;
+    help_screen_open = false;
 
     size = queue.size();
 
     coords.resize(size);
+    
+    tigrPrint(current_screen, tfont, 200, 30, tigrRGB(50,200,200), "Your queue!");
+    tigrPrint(current_screen, tfont, 10, 230, tigrRGB(50,50,200), "Press 'H' for help screen");
 
     boxSize = 12;
     tigrPrint(current_screen, tfont, 30, screenY - 30, tigrRGB(50,50,200), "Logged instance: %d / %d", queue_index+1, queue_log.size());
     if(queue.empty()) {
         tigrPrint(current_screen, tfont, 30, screenY/2, tigrRGB(50,50,200), "Queue is empty!");
     } else {
-        for (int i = 0; i < size; i++) {
+
+        page_index = item_index / 10;
+
+        for (int i = page_index*10; i < (i % 10 ? size: 10 + page_index*10); i++) {
             tigrRect(current_screen, bufferX, bufferY, 50, boxSize, tigrRGB(0,0,0));
-            tigrFillRect(current_screen, bufferX, bufferY, 50, boxSize, tigrRGB(38, 252, 66)); // prints boxes
+            tigrFillRect(current_screen, bufferX, bufferY, 50, boxSize, tigrRGB(0, 50, 0)); // prints boxes
+            tigrPrint(current_screen, tfont, bufferX + 55, bufferY + 2, tigrRGB(60, 0 , 0), "%d", i); // prints indices
             
             queue.pop(); // pops through set to print each box
             
-            coords[i] = bufferY;
+            coords[(i-page_index*10) % 10] = bufferY;
             bufferY += boxSize; // ensures that coordinates line up with box dimensions
-            
-            tigrPrint(current_screen, tfont, bufferX + 55, coords[i] + 2, tigrRGB(255, 0 , 0), "%d", i); // prints indices
         }
 
         queue = queue_log[queue_index];
-
-        tigrRect(current_screen, screenX/2, screenY/2 - 40, screenX, boxSize, tigrRGB(0,0,0));
-        tigrFillRect(current_screen, screenX/2, screenY/2 - 40, screenX, boxSize, tigrRGB(0,0,0));
         
         //current index cant be larger than size of queue
         if (item_index >= queue.size() - 1) {
@@ -221,80 +266,92 @@ void Waltr::drawQueue() {
         
         //we dont want to/cant pop a 0 size queue
         if (item_index != 0) {
-            for (int i = 0; i<item_index;i++) {
+            for (int i = 0; i < item_index;i++) {
                 queue.pop();
             }
+            
+            tigrFillRect(current_screen, bufferX, coords[(item_index-page_index*10) % 10], 50, boxSize, tigrRGB(0, 200, 0)); // prints boxes
+            tigrPrint(current_screen, tfont, bufferX + 55, coords[(item_index-page_index*10) % 10] + 2, tigrRGB(255, 0 , 0), "%d", item_index); // prints indices
+            
         }
 
-        tigrRect(current_screen, screenX/2, screenY/2 - 40, screenX, boxSize, tigrRGB(0,0,0));
-        tigrFillRect(current_screen, screenX/2, screenY/2 - 40, screenX, boxSize, tigrRGB(0,0,0));
+        tigrPrint(current_screen, tfont, screenX/2 + 10, screenY/2 - 40, tigrRGB(255,0,0), "Index: %d", item_index); // prints index
+        tigrPrint(current_screen, tfont, screenX/2 + 10, screenY/2 - 20, tigrRGB(255,0,0), "Type: %s", typeid(queue.front()).name()); 
+        // prints data type
         
-        tigrRect(current_screen, screenX/2 - 50, screenY/2 - 40, 100, 50, tigrRGB(0,0,0));
-        tigrFillRect(current_screen, screenX/2 - 50, screenY/2 - 40, 100, 50, tigrRGB(38, 252, 66));
-        tigrPrint(current_screen, tfont, screenX/2 - 40, screenY/2 - 30, tigrRGB(255,0,0), "Value: %d", queue.front()); // prints green box with data inside
-        tigrPrint(current_screen, tfont, screenX/2 - 40, screenY/2 - 20, tigrRGB(255,0,0), "Type: %s", typeid(queue.front()).name()); // prints data type
+        tigrRect(current_screen, screenX/2 - 50, screenY/2 - 40, 50, 50, tigrRGB(0,0,0));
+        tigrFillRect(current_screen, screenX/2 - 50, screenY/2 - 40, 50, 50, tigrRGB(38, 252, 66));
+        tigrPrint(current_screen, tfont, screenX/2 - 40, screenY/2 - 30, tigrRGB(255,0,0), "%d", queue.front()); // prints green box with data in it
         
-        //Stacks (technically) dont have indices... but this can slide for now because it looks like we have more data 
-        tigrPrint(current_screen, tfont, screenX/2 - 40, screenY/2 - 10, tigrRGB(255,0,0), "Index: %d", item_index); // prints index
+        tigrFillRect(current_screen, bufferX, coords[(item_index-page_index*10) % 10], 50, boxSize, tigrRGB(0, 200, 0));
+        tigrPrint(current_screen, tfont, bufferX + 55, coords[(item_index-page_index*10) % 10] + 2, tigrRGB(255, 0, 0), "%d", item_index);
 
-        tigrPrint(current_screen, tfont, screenX/2 - 153, coords[item_index] + 2, tigrRGB(255,0,0), ">"); // prints an arrow corresponding to the box the user is on
-
-        tigrFillRect(current_screen, bufferX, coords[item_index], 50, boxSize, tigrRGB(0,0,255)); //highlights current index
     }
 }
 
-/*
-Function to draw the stack to a window
-*/
 void Waltr::drawStack() {
     std::stack<int> stack = stack_log[stack_index];
     bufferX = 15;
     bufferY = 30;
+    help_screen_open = false;
 
     size = stack.size();
 
     coords.resize(size);
+    
+    tigrPrint(current_screen, tfont, 10, 230, tigrRGB(50,50,200), "Press 'H' for help screen");
+
+    tigrPrint(current_screen, tfont, 200, 30, tigrRGB(50,200,200), "Your stack!");
 
     boxSize = 12;
-    tigrPrint(current_screen, tfont, 30, screenY - 30, tigrRGB(50,50,200), "Logged instance: %d / %d", stack_index, stack_log.size()-1);
+    tigrPrint(current_screen, tfont, 30, screenY - 30, tigrRGB(50,50,200), "Logged instance: %d / %d", stack_index+1, stack_log.size());
     if(stack.empty()) {
         tigrPrint(current_screen, tfont, 30, screenY/2, tigrRGB(50,50,200), "Stack is empty!");
     } else {
-        for (int i = 0; i < size; i++) {
+
+        page_index = item_index / 10;
+
+        for(int i=page_index*10; i < (i % 10 ? size: 10 + page_index*10) ; i++) {
             tigrRect(current_screen, bufferX, bufferY, 50, boxSize, tigrRGB(0,0,0));
-            tigrFillRect(current_screen, bufferX, bufferY, 50, boxSize, tigrRGB(38, 252, 66)); // prints boxes
-            coords[i] = bufferY;
+            tigrFillRect(current_screen, bufferX, bufferY, 50, boxSize, tigrRGB(0, 50, 0)); // prints boxes
+            tigrPrint(current_screen, tfont, bufferX + 55, bufferY + 2, tigrRGB(60, 0 , 0), "%d", i); // prints indices
+
+            stack.pop();
+
+            coords[(i-page_index*10) % 10] = bufferY;
             bufferY += boxSize; // ensures that coordinates line up with box dimensions
-            
-            tigrPrint(current_screen, tfont, bufferX + 55, coords[i] + 2, tigrRGB(255, 0 , 0), "%d", i); // prints indices
         }
+
+        stack = stack_log[stack_index];
 
         if (item_index >= stack.size() - 1) {
             item_index = stack.size() - 1;
         }
 
         if (item_index != 0) {
-            for (int i = 0; i<item_index;i++) {
+            for (int i = 0; i < item_index; i++) {
                 stack.pop();
             }
         }
 
         tigrPrint(current_screen, tfont, screenX/2 + 10, screenY/2 - 40, tigrRGB(255,0,0), "Index: %d", item_index); // prints index
-        tigrPrint(current_screen, tfont, screenX/2 + 10, screenY/2 - 20, tigrRGB(255,0,0), "Type: %s", typeid(stack.top()).name()); // prints data type
+        tigrPrint(current_screen, tfont, screenX/2 + 10, screenY/2 - 20, tigrRGB(255,0,0), "Type: %s", typeid(stack.top()).name()); 
+        // prints data type
         
         tigrRect(current_screen, screenX/2 - 50, screenY/2 - 40, 50, 50, tigrRGB(0,0,0));
         tigrFillRect(current_screen, screenX/2 - 50, screenY/2 - 40, 50, 50, tigrRGB(38, 252, 66));
         tigrPrint(current_screen, tfont, screenX/2 - 40, screenY/2 - 30, tigrRGB(255,0,0), "%d", stack.top()); // prints green box with data in it
-
-        tigrPrint(current_screen, tfont, screenX/2 - 153, coords[item_index] + 2, tigrRGB(255,0,0), ">"); // prints arrow corresponding to box user is currently on
         
-        tigrFillRect(current_screen, bufferX, coords[item_index], 50, boxSize, tigrRGB(0,0,255)); //highlights current index
+        tigrFillRect(current_screen, bufferX, coords[(item_index-page_index*10) % 10], 50, boxSize, tigrRGB(0, 200, 0));
+        tigrPrint(current_screen, tfont, bufferX + 55, coords[(item_index-page_index*10) % 10] + 2, tigrRGB(255, 0, 0), "%d", item_index);
+
     }
 }
 
 void Waltr::openVectorWindow() {
     //Order of vectors displayed may need to be flipped
     //tigrClear(screen, tigrRGB(0,0,0));
+    
     
     current_screen = tigrWindow(screenX, screenY, (char*)"Your Vector!", 0);
     
@@ -303,6 +360,14 @@ void Waltr::openVectorWindow() {
 
     //Used to iterate through current vector
     item_index = 0;
+
+    //Used to iterate through pages
+    page_index = 0;
+
+    //sort box dimensions
+    int sortboxWidth = 45;
+    int sortboxHeight = 20;
+    int sortboxX = 260;
 
     //prints initial vector and instance number
     drawVector();
@@ -330,19 +395,63 @@ void Waltr::openVectorWindow() {
             tigrClear(current_screen,tigrRGB(0,0,0));
             drawVector();
         }
+        
+        if (tigrKeyDown(current_screen, 'Z') && page_index > 0 ) {
+            page_index--;
+            item_index = page_index*10;
+            tigrClear(current_screen,tigrRGB(0,0,0));
+            drawVector();
+        }
+
+        if (tigrKeyDown(current_screen, 'X') && page_index + 1 <= vector_log[vector_index].size() / 10) {
+            page_index++;
+            item_index = page_index*10;
+            if (item_index == vector_log[vector_index].size())
+                { 
+                    item_index--;   
+                }
+            tigrClear(current_screen,tigrRGB(0,0,0));
+            drawVector();
+        }
+
+        if (tigrKeyDown(current_screen, 'H') && help_screen_open == false) {
+            tigrClear(current_screen,tigrRGB(0,0,0));
+            drawVHelp();
+            help_screen_open = true;
+        }
 
         tigrMouse(current_screen, &mouseX, &mouseY, &buttons); // get mouse coordinates
-        for (int i = 0; i < size; i++) { // test if mouse coordinates are within array boxes
-            if(mouseX > coords[i] && mouseX < (coords[i]+ boxSize) && mouseY > bufferY && mouseY < (bufferY+boxSize)) {
-                //tigrFillRect(current_screen, coords[i], bufferY, boxSize, boxSize, tigrRGB(0,0,255)); // highlights box blue
+        for(int i=page_index*10; i < (size < 10 ? size: 10 + page_index*10) ; i++) { // test if mouse coordinates are within array boxes
+            if(mouseX > coords[(i-page_index*10) % 10] - 7 && mouseX < (coords[(i-page_index*10) % 10] + boxSize) - 7 && mouseY > bufferY && mouseY < (bufferY+boxSize)) {
                 if(buttons & 1) { // if mouse button clicked
                     item_index = i;
                     tigrClear(current_screen,tigrRGB(0,0,0));
                     drawVector();
                 }
-            } else {
-                if (i != item_index) {
-                    tigrFillRect(current_screen, coords[i], bufferY, boxSize, boxSize, tigrRGB(38, 252, 66)); // changes box back to green
+            }
+        }
+        
+        //when instance is not empty
+        if(vector_index > 0 && help_screen_open == false) {
+            tigrPrint(current_screen, tfont, 265, 150, tigrRGB(255,0,0), "Sort: " );
+            tigrFillRect(current_screen, sortboxX, 170, 45, sortboxHeight, tigrRGB(38,252,66));
+            tigrPrint(current_screen, tfont, (260+5), (170+4), tigrRGB(255,0,0), "Asc");
+            tigrFillRect(current_screen, sortboxX, 195, 45, sortboxHeight, tigrRGB(38,252,66));
+            tigrPrint(current_screen, tfont, (260+5), (195+7), tigrRGB(255,0,0), "Desc");
+            if(mouseX > sortboxX && mouseX < (sortboxX + sortboxWidth) && mouseY > 170 && mouseY < (170 + sortboxHeight)){
+                if(buttons & 1){
+                    tigrFillRect(current_screen, sortboxX, 170, 45, sortboxHeight, tigrRGB(0,0,255));
+                    //tigrClear(current_screen, tigrRGB(0,0,0));
+                    std::sort(vector_log[vector_index].begin(), vector_log[vector_index].end());
+                    drawVector();
+                }
+            }
+            if(mouseX > sortboxX && mouseX < (sortboxX + sortboxWidth) && mouseY > 195 && mouseY < (195 + sortboxHeight)){
+                if(buttons & 1){
+                    tigrFillRect(current_screen, sortboxX, 195, 45, sortboxHeight, tigrRGB(0,0,255));
+                    //tigrClear(current_screen, tigrRGB(0,0,0));
+                    std::sort(vector_log[vector_index].rbegin(), vector_log[vector_index].rend());
+                    drawVector();
                 }
             }
         }
@@ -397,46 +506,69 @@ void Waltr::openQueueWindow() {
     //Used to iterate through queue instances
     queue_index = 0;
 
+    //Used to iterate through pages
+    page_index = 0;
+
     //prints initial vector and instance number
     drawQueue();
     tigrUpdate(current_screen);
     while (!tigrClosed(current_screen) && !tigrKeyDown(current_screen, TK_ESCAPE)) {
-        if (tigrKeyDown(current_screen, TK_UP)  && queue_index < queue_log.size()-1) {
+        if (tigrKeyDown(current_screen, TK_RIGHT)  && queue_index < queue_log.size()-1) {
             queue_index++;
             tigrClear(current_screen,tigrRGB(0,0,0));
             drawQueue();
         }
-        if (tigrKeyDown(current_screen, TK_DOWN) && queue_index > 0) {
+        if (tigrKeyDown(current_screen, TK_LEFT) && queue_index > 0) {
             queue_index--;
             tigrClear(current_screen,tigrRGB(0,0,0));
             drawQueue();
         }
-        if (tigrKeyDown(current_screen, TK_RIGHT) && item_index < queue_log[queue_index].size()-1) {
+        if (tigrKeyDown(current_screen, TK_DOWN) && item_index < queue_log[queue_index].size()-1) {
             item_index++;
             tigrClear(current_screen,tigrRGB(0,0,0));
             drawQueue();
         }
-        if (tigrKeyDown(current_screen, TK_LEFT) && item_index > 0) {
+        if (tigrKeyDown(current_screen, TK_UP) && item_index > 0) {
             item_index--;
             tigrClear(current_screen,tigrRGB(0,0,0));
             drawQueue();
         }
+        
+        if (tigrKeyDown(current_screen, 'Z') && page_index > 0 ) {
+            page_index--;
+            item_index = page_index*10;
+            tigrClear(current_screen,tigrRGB(0,0,0));
+            drawQueue();
+        }
+        
+        if (tigrKeyDown(current_screen, 'X') && page_index + 1 <= queue_log[queue_index].size() / 10) {
+            page_index++;
+            item_index = page_index*10;
+            if (item_index == queue_log[queue_index].size())
+                {       
+                    item_index--;   
+                }
+            tigrClear(current_screen,tigrRGB(0,0,0));
+            drawQueue();
+        }
 
+        if (tigrKeyDown(current_screen, 'H') && help_screen_open == false) {
+            tigrClear(current_screen,tigrRGB(0,0,0));
+            drawVHelp();
+            help_screen_open = true;
+        }
+        
         tigrMouse(current_screen, &mouseX, &mouseY, &buttons); // get mouse coordinates
-        for (int i = 0; i < size; i++) { // test if mouse coordinates are within array boxes
-            if (mouseX > bufferX && mouseX < (bufferX + 50) && mouseY > coords[i] && mouseY < (coords[i]+boxSize)) {
-                tigrFillRect(current_screen, bufferX, coords[i], 50, boxSize, tigrRGB(0,0,255)); // highlights box blue
+        for(int i=page_index*10; i < (size < 10 ? size: 10 + page_index*10) ; i++) { // test if mouse coordinates are within array boxes
+            if (mouseX > bufferX && mouseX < (bufferX + 50) && mouseY > coords[(i-page_index*10) % 10] && mouseY < (coords[(i-page_index*10) % 10]+boxSize)) {
                 if(buttons & 1) { // if mouse button clicked
                     item_index = i;
                     tigrClear(current_screen,tigrRGB(0,0,0));
                     drawQueue();
                 }
-            } else {
-                if (i != item_index) {
-                    tigrFillRect(current_screen, bufferX, coords[i], 50, boxSize, tigrRGB(38, 252, 66)); // changes box back to green
-                }
             }
         }
+
         tigrUpdate(current_screen);
     }
     tigrFree(current_screen);
@@ -454,55 +586,69 @@ void Waltr::openStackWindow() {
     //Used to iterate through stack instances
     stack_index = 0;
 
+    //Used to iterate through pages
+    page_index = 0;
+
     //prints initial vector and instance number
     drawStack();
     tigrUpdate(current_screen);
     while (!tigrClosed(current_screen) && !tigrKeyDown(current_screen, TK_ESCAPE)) {
-        if (tigrKeyDown(current_screen, TK_UP)  && stack_index < stack_log.size()-1) {
+        if (tigrKeyDown(current_screen, TK_RIGHT)  && stack_index < stack_log.size()-1) {
             stack_index++;
             tigrClear(current_screen,tigrRGB(0,0,0));
             drawStack();
         }
-        if (tigrKeyDown(current_screen, TK_DOWN) && stack_index > 0) {
+        if (tigrKeyDown(current_screen, TK_LEFT) && stack_index > 0) {
             stack_index--;
             tigrClear(current_screen,tigrRGB(0,0,0));
             drawStack();
         }
-        if (tigrKeyDown(current_screen, TK_RIGHT) && item_index < stack_log[stack_index].size()-1) {
+        if (tigrKeyDown(current_screen, TK_DOWN) && item_index < stack_log[stack_index].size()-1) {
             item_index++;
             tigrClear(current_screen,tigrRGB(0,0,0));
             drawStack();
         }
-        if (tigrKeyDown(current_screen, TK_LEFT) && item_index > 0) {
+        if (tigrKeyDown(current_screen, TK_UP) && item_index > 0) {
             item_index--;
+            tigrClear(current_screen,tigrRGB(0,0,0));
+            drawStack();
+        }
+        
+        if (tigrKeyDown(current_screen, 'Z') && page_index > 0 ) {
+            page_index--;
+            item_index = page_index*10;
+            tigrClear(current_screen,tigrRGB(0,0,0));
+            drawStack();
+        }
+
+         if (tigrKeyDown(current_screen, 'H') && help_screen_open == false) {
+            tigrClear(current_screen,tigrRGB(0,0,0));
+            drawVHelp();
+            help_screen_open = true;
+        }
+        
+        if (tigrKeyDown(current_screen, 'X') && page_index + 1 <= stack_log[stack_index].size() / 10) {
+            page_index++;
+            item_index = page_index*10;
+            if (item_index == stack_log[stack_index].size())
+                {
+                    item_index--;   
+                }
             tigrClear(current_screen,tigrRGB(0,0,0));
             drawStack();
         }
 
         tigrMouse(current_screen, &mouseX, &mouseY, &buttons); // get mouse coordinates
-        for (int i = 0; i < size; i++) { // test if mouse coordinates are within array boxes
-            if (mouseX > bufferX && mouseX < (bufferX + 50) && mouseY > coords[i] && mouseY < (coords[i]+boxSize)) {
-                tigrFillRect(current_screen, bufferX, coords[i], 50, boxSize, tigrRGB(0,0,255)); // highlights box blue
+        for(int i=page_index*10; i < (size < 10 ? size: 10 + page_index*10) ; i++) { // test if mouse coordinates are within array boxes
+            if (mouseX > bufferX && mouseX < (bufferX + 50) && mouseY > coords[(i-page_index*10) % 10] && mouseY < (coords[(i-page_index*10) % 10]+boxSize)) {
                 if(buttons & 1) { // if mouse button clicked
                     item_index = i;
                     tigrClear(current_screen,tigrRGB(0,0,0));
                     drawStack();
                 }
-            } else {
-                if (i != item_index) {
-                    tigrFillRect(current_screen, bufferX, coords[i], 50, boxSize, tigrRGB(38, 252, 66)); // changes box back to green
-                }
             }
         }
-
-        tigrPrint(current_screen, tfont, 265, 150, tigrRGB(255,0,0), "Sort: " );
-        tigrFillRect(current_screen, 260, 170, 45, 20, tigrRGB(38,252,66));
-        tigrPrint(current_screen, tfont, (260+5), (170+4), tigrRGB(255,0,0), "up");
-        tigrFillRect(current_screen, 260, 195, 45, 20, tigrRGB(38,252,66));
-        tigrPrint(current_screen, tfont, (260+5), (195+7), tigrRGB(255,0,0), "down");
-
         
-    
         tigrUpdate(current_screen);
     }
     tigrFree(current_screen);
