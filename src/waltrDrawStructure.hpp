@@ -35,6 +35,7 @@ class Waltr {
 		int stack_index;
 		int item_index;
 		int page_index;
+		bool help_screen_open;
 		std::vector<int> coords;
 	public:
 		//Overload for C-Style arrays

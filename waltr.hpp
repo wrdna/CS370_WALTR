@@ -348,12 +348,16 @@ char *tigrEncodeUTF8(char *text, int cp);
 #ifndef WALTR
 #define WALTR
 
+#endif // WALTR
+
+
+
 class Waltr {
 	private:
 		//There is a better way to do this (Likely templates)
-		std::vector<std::vector<int>> vector_log;
-		std::vector<std::stack<int>> stack_log;
-		std::vector<std::queue<int>> queue_log;
+		std::vector<std::vector<int> > vector_log;
+		std::vector<std::stack<int> > stack_log;
+		std::vector<std::queue<int> > queue_log;
 		Tigr* current_screen;
 		int ifprinted = false;
 		int buttons;
@@ -370,6 +374,8 @@ class Waltr {
 		int queue_index;
 		int stack_index;
 		int item_index;
+		int page_index;
+		bool help_screen_open;
 		std::vector<int> coords;
 	public:
 		//Overload for C-Style arrays
@@ -424,6 +430,8 @@ class Waltr {
 		//prints inputted vector to screen
 		void drawVector();
 		
+		void drawVectorMouse();
+		
 		void drawQueue();
 		
 		void drawStack();
@@ -433,10 +441,16 @@ class Waltr {
 		void openQueueWindow();
 
 		void openStackWindow();
+		
+		//help screens
+		void drawVHelp();
+	
+		void drawQSHelp();
+
 
 
 		//DESTRUCTOR!!!
 		~Waltr();
 
 };
-#endif // WALTR
+
