@@ -431,7 +431,7 @@ void Waltr::openVectorWindow() {
         }
         
         //when instance is not empty
-        if(vector_index > 0 && help_screen_open == false) {
+        if(!vector_log[vector_index].empty() && help_screen_open == false) {
             tigrPrint(current_screen, tfont, 265, 150, tigrRGB(255,0,0), "Sort: " );
             tigrFillRect(current_screen, sortboxX, 170, 45, sortboxHeight, tigrRGB(38,252,66));
             tigrPrint(current_screen, tfont, (260+5), (170+4), tigrRGB(255,0,0), "Asc");
