@@ -83,6 +83,10 @@ Linux: g++ main.cpp waltr.cpp -lGLU -lGL -lX11
 
 - The up/down arrow keys are used to switch between saved logs of the data structure.
 
+- Press H to enter the help screen.
+
+- Press Z/X to move between elements in groups of 10.
+
 ## Restrictions
 
 - Currently, WALTR only supports the integer type (More types in the future)
