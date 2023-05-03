@@ -90,11 +90,3 @@ Linux: g++ main.cpp waltr.cpp -lGLU -lGL -lX11
 ## Restrictions
 
 - Currently, WALTR only supports the integer type (More types in the future)
-
-- WALTR only likes single digit integers at the moment, he's a picky eater but we're working on it!
-
-- WALTR can only handle data structures with a size up to 10 currently, larger than 10 causes problems! (Also a work in progress)
-
-
-
-If it works it works - WALTR 2023
